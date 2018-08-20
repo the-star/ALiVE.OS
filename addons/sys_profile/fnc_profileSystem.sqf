@@ -219,6 +219,8 @@ switch(_operation) do {
                 call ALIVE_fnc_profilesLoadData;
             };
 
+            ["the-star db. profile debug started"] call ALIVE_fnc_dump;
+
             // global server flag
             ALIVE_profileSystemInit = true;
 

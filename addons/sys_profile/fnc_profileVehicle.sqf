@@ -498,11 +498,18 @@ switch (_operation) do {
             };
 
             _vehicle = createVehicle [_vehicleClass, _position, [], 0, _special];
-            //_vehicle setPos _position;
             _vehicle setDir _direction;
             _vehicle setFuel _fuel;
             _vehicle engineOn _engineOn;
-            //_vehicle setVehicleVarName _profileID;
+
+            ["the-star db. created. id %1 special %2 position %3", _profileID, _special, _position] call ALIVE_fnc_dump;
+            ["the-star db. id %1 actual position %2", _profileID, getPosATL _vehicle] call ALIVE_fnc_dump;
+
+            // FLY ignores height on vehicle creation, reset position
+            if (_special == "FLY")  then {
+                _vehicle setPos _position;
+                ["the-star db. before crew. id %1 reposition %2", _profileID, getPosATL _vehicle] call ALIVE_fnc_dump;
+            };
 
             if(count _cargo > 0) then {
                 _cargoItems = [];
@@ -658,12 +665,6 @@ switch (_operation) do {
                 };
             };
 
-            if(_engineOn && {_vehicleType == "Plane"}) then {
-                _speed = 200;
-                _vehicle setVelocity [(sin _direction*_speed), (cos _direction*_speed),0.1];
-            };
-
-
             if(count _damage > 0) then {
                 [_vehicle, _damage] call ALIVE_fnc_vehicleSetDamage;
             };
@@ -690,6 +691,18 @@ switch (_operation) do {
 
             // store the profile id on the active profiles index
             [ALIVE_profileHandler,"setActive",[_profileID,_side,_logic]] call ALIVE_fnc_profileHandler;
+
+            if (_special isEqualTo "FLY" && _vehicleType isEqualTo "Plane") then {
+
+                ["the-star db. after crew. id %1 reposition %2", _profileID, getPosATL _vehicle] call ALIVE_fnc_dump;
+
+//                // reorient airplane as it may be facing downwards
+//                _vehicle setPos (getPosATL _vehicle);
+
+                // give airplane a push. changing direction reset its velocity
+                _speed = 200;
+                _vehicle setVelocity [(sin _direction*_speed), (cos _direction*_speed), 0.1];
+            };
 
             // DEBUG -------------------------------------------------------------------------------------
             if(_debug) then {

@@ -814,6 +814,7 @@ switch(_operation) do {
                     _x setPos _args;
                 } forEach (units _group);
 
+                ["the-star db. entity set pos %1", _args] call ALIVE_fnc_dump;
             };
         };
     };
