@@ -200,9 +200,36 @@ if (!_simAttacks) then {
 
                                 if (!isnil "_profilePosition" && {!(_profilePosition isEqualTo [])} && {!isnil "_destination"}) then {
 
+                                    private _profileID = _profile select 2 select 4; 
+
+                                    ["the-star db. profile sim bef. id %1 pos %2 dest %2", _profileID, _profilePosition, _destination] call ALIVE_fnc_dump;
+                                    private _profileHeight = 0;
+                                    private _destinationHeight = 0;
+
+                                    if (count _profilePosition == 3) then {
+                                        _profileHeight = _profilePosition select 2;
+                                    };
+
+                                    if (count _destination == 3) then {
+                                        _destinationHeight = _destination select 2;
+                                    };
+
+                                    // Looks like height in the variables below
+                                    // can be reset if they already exist; will
+                                    // need to test.
                                     // add z-index since some profiles dont one defined
                                     _profilePosition set [2,0];
                                     _destination set [2,0];
+
+                                    if ((_profilePosition select 2) != _profileHeight) then {
+                                        ["the-star db. profile sim. incorrect reset of profile height. id %1", _profileID] call ALIVE_fnc_dump;
+                                    };
+
+                                    if ((_destination select 2) != _destinationHeight) then {
+                                        ["the-star db. profile sim. incorrect reset of destination height. id %1", _profileID] call ALIVE_fnc_dump;
+                                    };
+
+                                    ["the-star db. profile sim after. id %1 pos %2 dest %3", _profileID, _profilePosition, _destination] call ALIVE_fnc_dump;
 
                                     private _executeStatements = false;
 
