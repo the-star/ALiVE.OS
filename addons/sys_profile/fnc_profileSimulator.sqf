@@ -218,8 +218,13 @@ if (!_simAttacks) then {
                                     // can be reset if they already exist; will
                                     // need to test.
                                     // add z-index since some profiles dont one defined
-                                    _profilePosition set [2,0];
-                                    _destination set [2,0];
+                                    if ((count _profilePosition) == 2) then {
+                                        _profilePosition set [2, 0];
+                                    };
+
+                                    if ((count _destination) == 2) then {
+                                        _destination set [2, 0];
+                                    };
 
                                     if ((_profilePosition select 2) != _profileHeight) then {
                                         ["the-star db. profile sim. incorrect reset of profile height. id %1", _profileID] call ALIVE_fnc_dump;
