@@ -506,9 +506,20 @@ switch (_operation) do {
             ["the-star db. id %1 actual position %2", _profileID, getPosATL _vehicle] call ALIVE_fnc_dump;
 
             // FLY ignores height on vehicle creation, reset position
-            if (_special == "FLY")  then {
-                _vehicle setPos _position;
+            if (_special isEqualTo "FLY")  then {
+                _vehicle setPosATL _position;
                 ["the-star db. before crew. id %1 reposition %2", _profileID, getPosATL _vehicle] call ALIVE_fnc_dump;
+
+                // give airplane a push. changing direction, position
+                // reset its velocity
+                if (_vehicleType isEqualTo "Plane") then {
+                    _speed = 200;
+                    _vehicle setVelocity [\
+                        (sin _direction) * _speed,
+                        (cos _direction) * _speed, 
+                        0.1
+                    ];
+                };
             };
 
             if(count _cargo > 0) then {
@@ -691,18 +702,6 @@ switch (_operation) do {
 
             // store the profile id on the active profiles index
             [ALIVE_profileHandler,"setActive",[_profileID,_side,_logic]] call ALIVE_fnc_profileHandler;
-
-            if (_special isEqualTo "FLY" && _vehicleType isEqualTo "Plane") then {
-
-                ["the-star db. after crew. id %1 reposition %2", _profileID, getPosATL _vehicle] call ALIVE_fnc_dump;
-
-//                // reorient airplane as it may be facing downwards
-//                _vehicle setPos (getPosATL _vehicle);
-
-                // give airplane a push. changing direction reset its velocity
-                _speed = 200;
-                _vehicle setVelocity [(sin _direction*_speed), (cos _direction*_speed), 0.1];
-            };
 
             // DEBUG -------------------------------------------------------------------------------------
             if(_debug) then {
