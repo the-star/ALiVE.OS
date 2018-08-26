@@ -252,6 +252,11 @@ if (!_simAttacks) then {
                                         };
                                     };
 
+                                    // getPos above returns AGL
+                                    if (surfaceIsWater _newPosition) then {
+                                        _newPosition = ASLtoATL _newPosition;
+                                    };
+
                                     // if distance to wp destination is within completion radius
                                     // mark waypoint as complete
                                     if (_distanceToWaypoint <= (_moveDistance * 2)) then {
