@@ -202,7 +202,7 @@ if (!_simAttacks) then {
 
                                     private _profileID = _profile select 2 select 4; 
 
-                                    ["the-star db. profile sim bef. id %1 pos %2 dest %2", _profileID, _profilePosition, _destination] call ALIVE_fnc_dump;
+                                    ["the-star db. profile sim bef. id %1 pos %2 dest %3", _profileID, _profilePosition, _destination] call ALIVE_fnc_dump;
                                     private _profileHeight = 0;
                                     private _destinationHeight = 0;
 
