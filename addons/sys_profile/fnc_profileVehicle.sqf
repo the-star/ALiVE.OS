@@ -502,13 +502,12 @@ switch (_operation) do {
             _vehicle setFuel _fuel;
             _vehicle engineOn _engineOn;
 
-            ["the-star db. created. id %1 special %2 position %3", _profileID, _special, _position] call ALIVE_fnc_dump;
-            ["the-star db. id %1 actual position %2", _profileID, getPosATL _vehicle] call ALIVE_fnc_dump;
+            ["the-star db. created. id %1 special %2 position %3 actual %4", _profileID, _special, _position, getPosATL _vehicle] call ALIVE_fnc_dump;
 
             // FLY ignores height on vehicle creation, reset position
             if (_special isEqualTo "FLY")  then {
                 _vehicle setPosATL _position;
-                ["the-star db. before crew. id %1 reposition %2", _profileID, getPosATL _vehicle] call ALIVE_fnc_dump;
+                ["the-star db. before crew. id %1 position %2 actual %3", _profileID, _position, getPosATL _vehicle] call ALIVE_fnc_dump;
 
                 // give airplane a push. changing direction, position
                 // reset its velocity
@@ -702,6 +701,8 @@ switch (_operation) do {
 
             // store the profile id on the active profiles index
             [ALIVE_profileHandler,"setActive",[_profileID,_side,_logic]] call ALIVE_fnc_profileHandler;
+
+            ["the-star db. after crew. id %1 position %2 actual %3", _profileID, _position, getPosATL _vehicle] call ALIVE_fnc_dump;
 
             // DEBUG -------------------------------------------------------------------------------------
             if(_debug) then {
