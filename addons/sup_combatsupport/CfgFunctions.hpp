@@ -46,6 +46,12 @@ class cfgFunctions {
                                 file = "\x\alive\addons\sup_combatsupport\scripts\NEO_radio\functions\misc\fn_supportRemove.sqf";
                                 RECOMPILE;
                         };
+
+                        class getArtyOrdnanceInfo {
+                                description = "";
+                                file = "\x\alive\addons\sup_combatsupport\fnc_getArtyOrdnanceInfo.sqf";
+                                RECOMPILE;
+                        };
                 };
         };
 };
