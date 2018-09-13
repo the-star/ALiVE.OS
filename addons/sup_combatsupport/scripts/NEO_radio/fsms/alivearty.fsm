@@ -225,8 +225,17 @@ class FSM
        "_grp setCombatMode ""RED"";" \n
        "_grp setSpeedMode ""FULL"";" \n
        "" \n
+       "private _data = [vehicle _leader] call ALIVE_fnc_getArtyOrdnanceInfo;" \n
+       "private _artyOrdnanceInfos = _data select 0;" \n
+       "private _artyOrdnanceRoundcounts = _data select 1;" \n
+       "" \n
+       "[""the-star db. ordnance infos %1"", _artyOrdnanceInfos] call ALIVE_fnc_dump;" \n
+       "[""the-star db. ordnance round counts %1"", _artyOrdnanceRoundcounts] call ALIVE_fnc_dump;" \n
+       "" \n
        "//Battery Status" \n
        "_battery setVariable [""NEO_radioArtyUnitStatus"", ""NONE"", true];" \n
+       "_battery setVariable [""CS_ArtyOrdnanceInfos"", _artyOrdnanceInfos, true];" \n
+       "_battery setVariable [""CS_ArtyOrdnanceRoundcounts"", _artyOrdnanceRoundcounts, true];" \n
        ""/*%FSM</STATEINIT""">*/;
       precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
       class Links
@@ -1328,7 +1337,9 @@ class FSM
   initState="Start";
   finalStates[] =
   {
-    "__6"    ,"__8"    ,"__13"
+    "__6",
+    "__8",
+    "__13",
   };
 };
 /*%FSM</COMPILE>*/
