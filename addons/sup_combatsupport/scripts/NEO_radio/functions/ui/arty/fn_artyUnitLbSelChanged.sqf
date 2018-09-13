@@ -7,7 +7,8 @@ private
     "_artyArray", "_artyUnitLb", "_artyUnitText", "_artyHelpUnitText", "_artyConfirmButton", "_artyBaseButton", "_artyOrdnanceTypeText",
     "_artyOrdnanceTypeLb", "_artyRateOfFireText", "_artyRateOfFireLb", "_artyRoundCountText", "_artyRoundCountLb", "_artyMoveButton",
     "_artyDontMoveButton", "_artyDispersionText", "_artyDispersionSlider", "_artyRateDelayText", "_artyRateDelaySlider",
-    "_supportMarker", "_artyMarkers", "_battery", "_status", "_class", "_ord"
+    "_supportMarker", "_artyMarkers", "_battery", "_status", "_class",
+    "_artyOrdnanceInfos", "_artyOrdnanceRoundcounts"
 ];
 _artyArray = NEO_radioLogic getVariable format ["NEO_radioArtyArray_%1", playerSide];
 _artyUnitLb = _display displayCtrl 655594;
@@ -32,7 +33,9 @@ _artyMarkers = NEO_radioLogic getVariable "NEO_supportArtyMarkers";
 _battery = _artyArray select (lbCurSel _artyUnitLb) select 0; if (!isNil { NEO_radioLogic getVariable "NEO_radioTalkWithArty" }) then { _battery = ((NEO_radioLogic getVariable "NEO_radioTalkWithArty") getVariable "NEO_radioArtyModule") select 0 };
 _status = _battery getVariable "NEO_radioArtyUnitStatus";
 _class = typeOf (((_artyArray select (lbCurSel _artyUnitLb)) select 3) select 0); if (!isNil { NEO_radioLogic getVariable "NEO_radioTalkWithArty" }) then { _class = typeOf (NEO_radioLogic getVariable "NEO_radioTalkWithArty") };
-_ord = _battery getVariable "NEO_radioArtyBatteryRounds";
+
+_artyOrdnanceInfos = _battery getVariable "CS_ArtyOrdnanceInfos";
+_artyOrdnanceRoundcounts = _battery getVariable "CS_ArtyOrdnanceRoundcounts";
 
 //Help Text
 _artyHelpUnitText ctrlSetStructuredText parseText (switch (toUpper _status) do
@@ -68,19 +71,22 @@ uinamespace setVariable ["NEO_artyMarkerCreated", nil];
 { _x ctrlSetText "" } forEach [_artyOrdnanceTypeText, _artyRateOfFireText, _artyRoundCountText, _artyDispersionText, _artyRateDelayText];
 { lbClear _x } forEach [_artyOrdnanceTypeLb, _artyRateOfFireLb, _artyRoundCountLb];
 
-if (!(_status in ["KILLED", "MISSION", "RTB", "MOVE", "RESPONSE", "NOAMMO"]) && count _ord > 0) then
+if (!(_status in ["KILLED", "MISSION", "RTB", "MOVE", "RESPONSE", "NOAMMO"]) && count _artyOrdnanceRoundcounts > 0) then
 {
     //Ordnance
     _artyOrdnanceTypeText ctrlSetStructuredText parseText "<t color='#B4B4B4' size='0.8' font='PuristaMedium'>ORDNANCE</t>";
     _artyOrdnanceTypeLb ctrlEnable true;
     lbClear _artyOrdnanceTypeLb;
-    {
-        if ((_x select 1) >= 1) then
-        {
-            _artyOrdnanceTypeLb lbAdd (_x select 0);
 
-        };
-    } forEach _ord;
+    // Show magazine display name in UI
+    {
+        private _idx = _artyOrdnanceTypeLb lbAdd (_x select 1);
+
+        // Magazine class is also saved so we don't need to
+        // translate from display name to magazine class name
+        _artyOrdnanceTypeLb lbSetData [_idx, (_x select 0)];
+
+    } forEach _artyOrdnanceInfos;
 
     //Arty Markers
     {

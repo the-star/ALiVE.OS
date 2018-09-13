@@ -21,10 +21,8 @@ _status = _battery getVariable "NEO_radioArtyUnitStatus";
 _supportMarker = NEO_radioLogic getVariable "NEO_supportMarker";
 _pos = getMarkerPos _supportMarker; _pos set [2, 0];
 _type = "IMMEDIATE";
-_ordnanceType = _artyOrdnanceTypeLb lbText (lbCurSel _artyOrdnanceTypeLb);
-
-//_ord = [_battery, _ordnanceType] CALL ALIVE_fnc_GetMagazineType;
-_ord = [_battery, _ordnanceType] CALL ALIVE_fnc_getArtyMagazineType;
+_ord = _artyOrdnanceTypeLb lbData (lbCurSel _artyOrdnanceTypeLb);
+_ordnanceType = "MOO GOES THE COW";
 
 _rate = switch (_artyRateOfFireLb lbText (lbCurSel _artyRateOfFireLb)) do
 {
