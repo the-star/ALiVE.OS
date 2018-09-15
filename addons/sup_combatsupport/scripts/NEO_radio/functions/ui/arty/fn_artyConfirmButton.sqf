@@ -2,7 +2,8 @@ private
 [
     "_display", "_artyArray", "_artyConfirmButton", "_artyUnitLb", "_artyOrdnanceTypeLb", "_artyRateOfFireLb",
     "_artyRoundCountLb", "_artyDispersionSlider", "_artyRateDelaySlider", "_battery", "_status", "_supportMarker",
-    "_pos", "_type", "_ord", "_rate", "_count", "_dispersion", "_coord"
+    "_pos", "_type", "_ord", "_rate", "_count", "_dispersion", "_coord",
+    "_ordDisplayName"
 ];
 _display = findDisplay 655555;
 _artyArray = NEO_radioLogic getVariable format ["NEO_radioArtyArray_%1", playerSide];
@@ -22,7 +23,7 @@ _supportMarker = NEO_radioLogic getVariable "NEO_supportMarker";
 _pos = getMarkerPos _supportMarker; _pos set [2, 0];
 _type = "IMMEDIATE";
 _ord = _artyOrdnanceTypeLb lbData (lbCurSel _artyOrdnanceTypeLb);
-_ordnanceType = "MOO GOES THE COW";
+_ordDisplayName = _artyOrdnanceTypeLb lbText (lbCurSel _artyOrdnanceTypeLb);
 
 _rate = switch (_artyRateOfFireLb lbText (lbCurSel _artyRateOfFireLb)) do
 {
@@ -45,7 +46,7 @@ _callsign = _artyArray select (lbCurSel _artyUnitLb) select 2; if (!isNil { NEO_
 _callsignPlayer = (format ["%1", group player]) call NEO_fnc_callsignFix;
 
 //Dislog from player
-[[player,format["%1, %2 needs an %5 %7 round %6 strike at grid %3%4 with %8m dispersion and %9s delay. Over.", _callsign, _callSignPlayer, _coord select 0, _coord select 1, _type, _ordnanceType, _count, _dispersion, _rate],"side"],"NEO_fnc_messageBroadcast",true,false] spawn BIS_fnc_MP;
+[[player,format["%1, %2 needs an %5 %7 round %6 strike at grid %3%4 with %8m dispersion and %9s delay. Over.", _callsign, _callSignPlayer, _coord select 0, _coord select 1, _type, _ordDisplayName, _count, _dispersion, _rate],"side"],"NEO_fnc_messageBroadcast",true,false] spawn BIS_fnc_MP;
 
 
 if (_audio) then {
@@ -57,7 +58,7 @@ if (_audio) then {
 
 
 //NEW TASK
-_battery setVariable ["NEO_radioArtyNewTask", [_type, _ordnanceType, _rate, _count, _dispersion, _pos, _unit, _ord, _callsignPlayer, player], true];
+_battery setVariable ["NEO_radioArtyNewTask", [_type, _rate, _count, _dispersion, _pos, _unit, _ord, _callsignPlayer, player], true];
 
 //Interface
 [lbCurSel 655565] call NEO_fnc_radioRefreshUi;

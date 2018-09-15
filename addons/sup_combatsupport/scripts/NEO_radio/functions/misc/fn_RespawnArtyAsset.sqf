@@ -8,7 +8,6 @@ _units = _this select 0;
 _grp = _this select 1;
 _callsign = _this select 2;
 _pos = _this select 3;
-_availableRounds = _this select 4;
 _canMove = _this select 5;
 _type = _this select 6;
 _battery = _this select 7;
@@ -129,7 +128,7 @@ _audio = NEO_radioLogic getvariable ["combatsupport_audio",true];
 [_units, _grp, _callsign, _pos, _roundsAvailable, _canMove, _type, leader _grp, _code, _audio, _side] execFSM "\x\alive\addons\sup_combatSupport\scripts\NEO_radio\fsms\alivearty.fsm";
 
 _a = NEO_radioLogic getVariable format ["NEO_radioArtyArray_%1", _side];
-_a pushback ([leader _grp, _grp, _callsign, _units, _roundsAvailable]);
+_a pushback ([leader _grp, _grp, _callsign, _units]);
 
 NEO_radioLogic setVariable [format ["NEO_radioArtyArray_%1", _side], _a, true];
 

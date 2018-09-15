@@ -228,6 +228,7 @@ class FSM
        "private _data = [vehicle _leader] call ALIVE_fnc_getArtyOrdnanceInfo;" \n
        "private _artyOrdnanceInfos = _data select 0;" \n
        "private _artyOrdnanceRoundcounts = _data select 1;" \n
+       "_availableRounds = _artyOrdnanceRoundcounts;" \n
        "" \n
        "[""the-star db. ordnance infos %1"", _artyOrdnanceInfos] call ALIVE_fnc_dump;" \n
        "[""the-star db. ordnance round counts %1"", _artyOrdnanceRoundcounts] call ALIVE_fnc_dump;" \n
@@ -259,16 +260,16 @@ class FSM
       name = "main_loop";
       init = /*%FSM<STATEINIT""">*/"private " \n
        "[" \n
-       "    ""_newTaskArray"", ""_missionType"", ""_ordnanceType"", ""_rateOfFire"", ""_durationOrCount"", " \n
+       "    ""_newTaskArray"", ""_missionType"", ""_rateOfFire"", ""_durationOrCount"", " \n
        "    ""_dispersion"", ""_target"",""_class"",""_ordnance""" \n
        "];" \n
        "_newTaskArray = [];" \n
        "_missionType = """";" \n
-       "_ordnanceType = """";" \n
        "_rateOfFire = 0;" \n
        "_durationOrCount = 0;" \n
        "_dispersion = 0;" \n
        "_target = [];" \n
+       "_ordnance = """";" \n
        "" \n
        "{" \n
        "    _x setFuel 1;" \n
@@ -315,15 +316,14 @@ class FSM
           action=/*%FSM<ACTION""">*/"_newTaskArray = _battery getVariable ""NEO_radioArtyNewTask"";" \n
            "" \n
            "_missionType = _newTaskArray select 0;" \n
-           "_ordnanceType = _newTaskArray select 1;" \n
-           "_rateOfFire = _newTaskArray select 2;" \n
-           "_durationOrCount = _newTaskArray select 3;" \n
-           "_dispersion = _newTaskArray select 4;" \n
-           "_target = _newTaskArray select 5; _target set [2, 0];" \n
-           "//_class = _newTaskArray select 6;" \n
-           "_ordnance = _newTaskArray select 7;" \n
-           "_callsignPlayer = _newTaskArray select 8;" \n
-           "_player = _newTaskArray select 9;" \n
+           "_rateOfFire = _newTaskArray select 1;" \n
+           "_durationOrCount = _newTaskArray select 2;" \n
+           "_dispersion = _newTaskArray select 3;" \n
+           "_target = _newTaskArray select 4; _target set [2, 0];" \n
+           "//_class = _newTaskArray select 5;" \n
+           "_ordnance = _newTaskArray select 6;" \n
+           "_callsignPlayer = _newTaskArray select 7;" \n
+           "_player = _newTaskArray select 8;" \n
            "_battery setVariable [""NEO_radioArtyNewTask"", nil, true];" \n
            "" \n
            "//Get ASL position" \n
@@ -390,45 +390,36 @@ class FSM
            "" \n
            "_battery setVariable [""NEO_radioArtyUnitStatus"", ""MISSION"", true];" \n
            "" \n
-           "[_battery, _target, _missionType, _ordnanceType, _rateOfFire, _durationOrCount, _class,_ordnance,_dispersion, _units] spawn ALIVE_fnc_ExecuteMission;" \n
+           "[_battery, _target, _missionType, _rateOfFire, _durationOrCount, _class,_ordnance,_dispersion, _units] spawn ALIVE_fnc_ExecuteMission;" \n
            "" \n
            "//Update ammo" \n
-           "_ammo = _battery getVariable ""NEO_radioArtyBatteryRounds"";" \n
+           "_ammo = _battery getVariable ""CS_ArtyOrdnanceInfos"";" \n
+           "private _roundCount = _battery getVariable ""CS_ArtyOrdnanceRoundcounts"";" \n
            "_newAmmo = [];" \n
            "_newAmmoArray = _ammo;" \n
            "" \n
+           "private _roundIdx = -1;" \n
+           "" \n
            "{" \n
-           "    private [""_round"", ""_count"", ""_countNew""];" \n
-           "    _round = _x select 0; " \n
-           "    _count = _x select 1; " \n
-           "    _newAmmoIndex = _forEachIndex;" \n
+           "    if (_x select 0 == _ordnance) exitWith {" \n
+           "        _roundIdx = _x select 2;" \n
+           "    }" \n
            "" \n
-           "    if (_ordnanceType == _round) then  " \n
-           "    {" \n
-           "        _countNew = _count - _durationOrCount;" \n
-           "        if(_countNew > 0) then" \n
-           "        {" \n
-           "" \n
-           "        _newAmmo = [_ordnanceType, _countNew];" \n
-           "" \n
-           "                if (count _newAmmo > 0) then" \n
-           "                {" \n
-           "" \n
-           "                _newAmmoArray set [_newAmmoIndex, _newAmmo];" \n
-           "" \n
-           "                };" \n
-           "        }" \n
-           "        else" \n
-           "        {" \n
-           "" \n
-           "        _newAmmoArray set [_newAmmoIndex, ""DELETEPLEASE""];" \n
-           "        _newAmmoArray = _newAmmoArray - [""DELETEPLEASE""]" \n
-           "        " \n
-           "        };" \n
-           "    };" \n
            "} forEach _ammo;" \n
            "" \n
-           "_battery setVariable [""NEO_radioArtyBatteryRounds"", _newAmmoArray, true];" \n
+           "_count = _roundCount select _roundIdx;" \n
+           "_countNew = _count - _durationOrCount;" \n
+           "" \n
+           "if (_countNew > 0) then" \n
+           "{" \n
+           "    _roundCount set [_roundIdx, _countNew];" \n
+           "}" \n
+           "" \n
+           "else {" \n
+           "    _roundCount set [_roundIdx, 0];" \n
+           "};" \n
+           "" \n
+           "_battery setVariable [""CS_ArtyOrdnanceRoundcounts"", _roundCount, true];" \n
            "" \n
            ""/*%FSM</ACTION""">*/;
         };
@@ -693,7 +684,7 @@ class FSM
           to="main_loop";
           precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
           condition=/*%FSM<CONDITION""">*/"true"/*%FSM</CONDITION""">*/;
-          action=/*%FSM<ACTION""">*/"if (count (_battery getVariable ""NEO_radioArtyBatteryRounds"") < 1) then" \n
+          action=/*%FSM<ACTION""">*/"if (count (_battery getVariable ""CS_ArtyOrdnanceRoundcounts"") < 1) then" \n
            "{" \n
            "    private ""_msg"";" \n
            "    _battery setVariable [""NEO_radioArtyUnitStatus"", ""NOAMMO"", true];" \n
@@ -1037,45 +1028,36 @@ class FSM
            "" \n
            "_battery setVariable [""NEO_radioArtyUnitStatus"", ""MISSION"", true];" \n
            "" \n
-           "[_battery, _target, _missionType, _ordnanceType, _rateOfFire, _durationOrCount, _class,_ordnance,_dispersion, _units] spawn ALIVE_fnc_ExecuteMission;" \n
+           "[_battery, _target, _missionType, _rateOfFire, _durationOrCount, _class,_ordnance,_dispersion, _units] spawn ALIVE_fnc_ExecuteMission;" \n
            "" \n
            "//Update ammo" \n
-           "_ammo = _battery getVariable ""NEO_radioArtyBatteryRounds"";" \n
+           "_ammo = _battery getVariable ""CS_ArtyOrdnanceInfos"";" \n
+           "private _roundCount = _battery getVariable ""CS_ArtyOrdnanceRoundcounts"";" \n
            "_newAmmo = [];" \n
            "_newAmmoArray = _ammo;" \n
            "" \n
+           "private _roundIdx = -1;" \n
+           "" \n
            "{" \n
-           "    private [""_round"", ""_count"", ""_countNew""];" \n
-           "    _round = _x select 0; " \n
-           "    _count = _x select 1; " \n
-           "    _newAmmoIndex = _forEachIndex;" \n
+           "    if (_x select 0 == _ordnance) exitWith {" \n
+           "        _roundIdx = _x select 2;" \n
+           "    }" \n
            "" \n
-           "    if (_ordnanceType == _round) then  " \n
-           "    {" \n
-           "        _countNew = _count - _durationOrCount;" \n
-           "        if(_countNew > 0) then" \n
-           "        {" \n
-           "" \n
-           "        _newAmmo = [_ordnanceType, _countNew];" \n
-           "" \n
-           "                if (count _newAmmo > 0) then" \n
-           "                {" \n
-           "" \n
-           "                _newAmmoArray set [_newAmmoIndex, _newAmmo];" \n
-           "" \n
-           "                };" \n
-           "        }" \n
-           "        else" \n
-           "        {" \n
-           "" \n
-           "        _newAmmoArray set [_newAmmoIndex, ""DELETEPLEASE""];" \n
-           "        _newAmmoArray = _newAmmoArray - [""DELETEPLEASE""]" \n
-           "        " \n
-           "        };" \n
-           "    };" \n
            "} forEach _ammo;" \n
            "" \n
-           "_battery setVariable [""NEO_radioArtyBatteryRounds"", _newAmmoArray, true];" \n
+           "_count = _roundCount select _roundIdx;" \n
+           "_countNew = _count - _durationOrCount;" \n
+           "" \n
+           "if (_countNew > 0) then" \n
+           "{" \n
+           "    _roundCount set [_roundIdx, _countNew];" \n
+           "}" \n
+           "" \n
+           "else {" \n
+           "    _roundCount set [_roundIdx, 0];" \n
+           "};" \n
+           "" \n
+           "_battery setVariable [""CS_ArtyOrdnanceRoundcounts"", _roundCount, true];" \n
            "" \n
            ""/*%FSM</ACTION""">*/;
         };
@@ -1144,7 +1126,7 @@ class FSM
            "" \n
            "};" \n
            "" \n
-           "if (count (_battery getVariable ""NEO_radioArtyBatteryRounds"") < 1) then" \n
+           "if (count (_battery getVariable ""CS_artyOrdnanceRoundcounts"") < 1) then" \n
            "{" \n
            "    _battery setVariable [""NEO_radioArtyUnitStatus"", ""NOAMMO"", true];" \n
            "    private ""_msg"";" \n
@@ -1220,45 +1202,36 @@ class FSM
            "" \n
            "_battery setVariable [""NEO_radioArtyUnitStatus"", ""MISSION"", true];" \n
            "" \n
-           "[_battery, _target, _missionType, _ordnanceType, _rateOfFire, _durationOrCount, _class,_ordnance,_dispersion, _units] spawn ALIVE_fnc_ExecuteMission;" \n
+           "[_battery, _target, _missionType, _rateOfFire, _durationOrCount, _class,_ordnance,_dispersion, _units] spawn ALIVE_fnc_ExecuteMission;" \n
            "" \n
            "//Update ammo" \n
-           "_ammo = _battery getVariable ""NEO_radioArtyBatteryRounds"";" \n
+           "_ammo = _battery getVariable ""CS_ArtyOrdnanceInfos"";" \n
+           "private _roundCount = _battery getVariable ""CS_ArtyOrdnanceRoundcounts"";" \n
            "_newAmmo = [];" \n
            "_newAmmoArray = _ammo;" \n
            "" \n
+           "private _roundIdx = -1;" \n
+           "" \n
            "{" \n
-           "    private [""_round"", ""_count"", ""_countNew""];" \n
-           "    _round = _x select 0; " \n
-           "    _count = _x select 1; " \n
-           "    _newAmmoIndex = _forEachIndex;" \n
+           "    if (_x select 0 == _ordnance) exitWith {" \n
+           "        _roundIdx = _x select 2;" \n
+           "    }" \n
            "" \n
-           "    if (_ordnanceType == _round) then  " \n
-           "    {" \n
-           "        _countNew = _count - _durationOrCount;" \n
-           "        if(_countNew > 0) then" \n
-           "        {" \n
-           "" \n
-           "        _newAmmo = [_ordnanceType, _countNew];" \n
-           "" \n
-           "                if (count _newAmmo > 0) then" \n
-           "                {" \n
-           "" \n
-           "                _newAmmoArray set [_newAmmoIndex, _newAmmo];" \n
-           "" \n
-           "                };" \n
-           "        }" \n
-           "        else" \n
-           "        {" \n
-           "" \n
-           "        _newAmmoArray set [_newAmmoIndex, ""DELETEPLEASE""];" \n
-           "        _newAmmoArray = _newAmmoArray - [""DELETEPLEASE""]" \n
-           "        " \n
-           "        };" \n
-           "    };" \n
            "} forEach _ammo;" \n
            "" \n
-           "_battery setVariable [""NEO_radioArtyBatteryRounds"", _newAmmoArray, true];" \n
+           "_count = _roundCount select _roundIdx;" \n
+           "_countNew = _count - _durationOrCount;" \n
+           "" \n
+           "if (_countNew > 0) then" \n
+           "{" \n
+           "    _roundCount set [_roundIdx, _countNew];" \n
+           "}" \n
+           "" \n
+           "else {" \n
+           "    _roundCount set [_roundIdx, 0];" \n
+           "};" \n
+           "" \n
+           "_battery setVariable [""CS_ArtyOrdnanceRoundcounts"", _roundCount, true];" \n
            "" \n
            ""/*%FSM</ACTION""">*/;
         };

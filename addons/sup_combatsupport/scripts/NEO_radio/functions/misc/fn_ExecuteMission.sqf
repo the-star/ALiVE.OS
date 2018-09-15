@@ -1,19 +1,17 @@
 
-private ["_battery", "_targetPos", "_missionType", "_ordnanceType", "_rateOfFire",
+private ["_battery", "_targetPos", "_missionType", "_rateOfFire",
         "_missionRoundCount", "_missionTimeLength", "_unit", "_ordnance", "_eta","_grp","_dummy","_target","_dispersion","_units"];
 
 _battery = _this select 0;
 _targetPos = _this select 1;
 _missionType = _this select 2;
-_ordnanceType = _this select 3;    //"8Rnd_82mm_Mo_shells";
-_rateOfFire = _this select 4; //0
-_missionRoundCount = _this select 5;  //6
-_missionTimeLength = _this select 5; //6
-_unit = _this select 6;
-_ordnance = _this select 7;
-_dispersion = _this select 8;
-_units = _this select 9;
-
+_rateOfFire = _this select 3; //0
+_missionRoundCount = _this select 4;  //6
+_missionTimeLength = _this select 4; //6
+_unit = _this select 5;
+_ordnance = _this select 6;
+_dispersion = _this select 7;
+_units = _this select 8;
 
 diag_log format["MISSION: %1", _this];
 
