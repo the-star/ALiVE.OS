@@ -196,7 +196,7 @@ class FSM
        "private " \n
        "[" \n
        "    ""_radiusMove"", ""_dirMove"", ""_posMove"", ""_isFlat"", ""_tries"", ""_delay"", ""_dummy""," \n
-       "    ""_firingDistance"", ""_ammo"", ""_newAmmo"", ""_newAmmoIndex"", ""_newAmmoArray""," \n
+       "    ""_firingDistance"", ""_ammo""," \n
        "    ""_classCopy""" \n
        "];" \n
        "_classCopy = _class;" \n
@@ -209,9 +209,6 @@ class FSM
        "_dummy = objNull;" \n
        "_firingDistance = [];" \n
        "_ammo = [];" \n
-       "_newAmmo = [];" \n
-       "_newAmmoIndex = 0;" \n
-       "_newAmmoArray = [];" \n
        "" \n
        "private " \n
        "[" \n
