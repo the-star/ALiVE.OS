@@ -299,7 +299,7 @@ class FSM
           priority = 50.000000;
           to="__8";
           precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
-          condition=/*%FSM<CONDITION""">*/"count (_battery getVariable ""NEO_radioArtyBatteryRounds"") < 1" \n
+          condition=/*%FSM<CONDITION""">*/"count (_battery getVariable ""CS_ArtyOrdnanceRoundcounts"") < 1" \n
            "||" \n
            "_grp getVariable [""supportWeaponCount"",3] == 0"/*%FSM</CONDITION""">*/;
           action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
