@@ -395,9 +395,6 @@ class FSM
            "//Update ammo" \n
            "_ammo = _battery getVariable ""CS_ArtyOrdnanceInfos"";" \n
            "private _roundCount = _battery getVariable ""CS_ArtyOrdnanceRoundcounts"";" \n
-           "_newAmmo = [];" \n
-           "_newAmmoArray = _ammo;" \n
-           "" \n
            "private _roundIdx = -1;" \n
            "" \n
            "{" \n
@@ -1033,9 +1030,6 @@ class FSM
            "//Update ammo" \n
            "_ammo = _battery getVariable ""CS_ArtyOrdnanceInfos"";" \n
            "private _roundCount = _battery getVariable ""CS_ArtyOrdnanceRoundcounts"";" \n
-           "_newAmmo = [];" \n
-           "_newAmmoArray = _ammo;" \n
-           "" \n
            "private _roundIdx = -1;" \n
            "" \n
            "{" \n
@@ -1207,9 +1201,6 @@ class FSM
            "//Update ammo" \n
            "_ammo = _battery getVariable ""CS_ArtyOrdnanceInfos"";" \n
            "private _roundCount = _battery getVariable ""CS_ArtyOrdnanceRoundcounts"";" \n
-           "_newAmmo = [];" \n
-           "_newAmmoArray = _ammo;" \n
-           "" \n
            "private _roundIdx = -1;" \n
            "" \n
            "{" \n
