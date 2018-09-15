@@ -222,10 +222,14 @@ class FSM
        "_grp setCombatMode ""RED"";" \n
        "_grp setSpeedMode ""FULL"";" \n
        "" \n
-       "private _data = [vehicle _leader] call ALIVE_fnc_getArtyOrdnanceInfo;" \n
-       "private _artyOrdnanceInfos = _data select 0;" \n
-       "private _artyOrdnanceRoundcounts = _data select 1;" \n
-       "_availableRounds = _artyOrdnanceRoundcounts;" \n
+       "private _artyOrdnanceInfos = [""getData"", vehicle _leader] call ALIVE_fnc_getArtyOrdnanceInfo;" \n
+       "private _artyOrdnanceRoundcounts = [];" \n
+       "//_availableRounds = _artyOrdnanceRoundcounts;" \n
+       "" \n
+       "{" \n
+       "	_artyOrdnanceRoundcounts pushback 32;" \n
+       "" \n
+       "} forEach _artyOrdnanceInfos;" \n
        "" \n
        "[""the-star db. ordnance infos %1"", _artyOrdnanceInfos] call ALIVE_fnc_dump;" \n
        "[""the-star db. ordnance round counts %1"", _artyOrdnanceRoundcounts] call ALIVE_fnc_dump;" \n
@@ -392,14 +396,7 @@ class FSM
            "//Update ammo" \n
            "_ammo = _battery getVariable ""CS_ArtyOrdnanceInfos"";" \n
            "private _roundCount = _battery getVariable ""CS_ArtyOrdnanceRoundcounts"";" \n
-           "private _roundIdx = -1;" \n
-           "" \n
-           "{" \n
-           "    if (_x select 0 == _ordnance) exitWith {" \n
-           "        _roundIdx = _x select 2;" \n
-           "    }" \n
-           "" \n
-           "} forEach _ammo;" \n
+           "private _roundIdx = [""getIdx"", [_ammo, _ordnance]] call ALIVE_fnc_getArtyOrdnanceInfo;" \n
            "" \n
            "_count = _roundCount select _roundIdx;" \n
            "_countNew = _count - _durationOrCount;" \n
@@ -1027,14 +1024,7 @@ class FSM
            "//Update ammo" \n
            "_ammo = _battery getVariable ""CS_ArtyOrdnanceInfos"";" \n
            "private _roundCount = _battery getVariable ""CS_ArtyOrdnanceRoundcounts"";" \n
-           "private _roundIdx = -1;" \n
-           "" \n
-           "{" \n
-           "    if (_x select 0 == _ordnance) exitWith {" \n
-           "        _roundIdx = _x select 2;" \n
-           "    }" \n
-           "" \n
-           "} forEach _ammo;" \n
+           "private _roundIdx = [""getIdx"", [_ammo, _ordnance]] call ALIVE_fnc_getArtyOrdnanceInfo;" \n
            "" \n
            "_count = _roundCount select _roundIdx;" \n
            "_countNew = _count - _durationOrCount;" \n
@@ -1198,14 +1188,7 @@ class FSM
            "//Update ammo" \n
            "_ammo = _battery getVariable ""CS_ArtyOrdnanceInfos"";" \n
            "private _roundCount = _battery getVariable ""CS_ArtyOrdnanceRoundcounts"";" \n
-           "private _roundIdx = -1;" \n
-           "" \n
-           "{" \n
-           "    if (_x select 0 == _ordnance) exitWith {" \n
-           "        _roundIdx = _x select 2;" \n
-           "    }" \n
-           "" \n
-           "} forEach _ammo;" \n
+           "private _roundIdx = [""getIdx"", [_ammo, _ordnance]] call ALIVE_fnc_getArtyOrdnanceInfo;" \n
            "" \n
            "_count = _roundCount select _roundIdx;" \n
            "_countNew = _count - _durationOrCount;" \n
