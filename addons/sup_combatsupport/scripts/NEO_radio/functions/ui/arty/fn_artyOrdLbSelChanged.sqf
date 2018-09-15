@@ -32,17 +32,10 @@ if (_artyOrdnanaceInfos isEqualTo []) exitWith {
 if (_artyOrdnanceRoundcounts isEqualTo []) exitWith {
 };
 
-private _roundIdx = -1;
+private _roundIdx = ["getIdx", [_artyOrdnanceInfos, _ord]] call ALIVE_fnc_getArtyOrdnanceInfo;
 
-{
-    if (_ord == (_x select 0)) exitWith {
-
-        _roundIdx = _x select 2;
-    };
-
-} forEach _artyOrdnanceInfos;
-
-if (_roundIdx < 0) exitWith {};
+if (_roundIdx < 0) exitWith {
+};
 
 _count = _artyOrdnanceRoundcounts select _roundIdx;
 

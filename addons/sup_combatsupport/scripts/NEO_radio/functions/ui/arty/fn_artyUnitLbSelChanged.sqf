@@ -80,15 +80,19 @@ if (!(_status in ["KILLED", "MISSION", "RTB", "MOVE", "RESPONSE", "NOAMMO"]) && 
 
     // Show magazine display name in UI
     {
-        private _roundCount = _artyOrdnanceRoundcounts select (_x select 2);
+        private _ord = ["getClass", [_x]] call ALIVE_fnc_getArtyOrdnanceInfo;
+        private _ordIdx = ["getIdx", [_x]] call ALIVE_fnc_getArtyOrdnanceInfo;
+        private _ordDisplayName = ["getDisplayName", [_x]] call ALIVE_fnc_getArtyOrdnanceInfo;
+
+        private _roundCount = _artyOrdnanceRoundcounts select _ordIdx;
 
         if (_roundCount > 0) then {
 
-            private _idx = _artyOrdnanceTypeLb lbAdd (_x select 1);
+            private _idx = _artyOrdnanceTypeLb lbAdd _ordDisplayName;
 
             // Magazine class is also saved so we don't need to
             // translate from display name to magazine class name
-            _artyOrdnanceTypeLb lbSetData [_idx, (_x select 0)];
+            _artyOrdnanceTypeLb lbSetData [_idx, _ord];
         };
 
     } forEach _artyOrdnanceInfos;
