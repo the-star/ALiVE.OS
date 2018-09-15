@@ -80,11 +80,16 @@ if (!(_status in ["KILLED", "MISSION", "RTB", "MOVE", "RESPONSE", "NOAMMO"]) && 
 
     // Show magazine display name in UI
     {
-        private _idx = _artyOrdnanceTypeLb lbAdd (_x select 1);
+        private _roundCount = _artyOrdnanceRoundcounts select (_x select 2);
 
-        // Magazine class is also saved so we don't need to
-        // translate from display name to magazine class name
-        _artyOrdnanceTypeLb lbSetData [_idx, (_x select 0)];
+        if (_roundCount > 0) then {
+
+            private _idx = _artyOrdnanceTypeLb lbAdd (_x select 1);
+
+            // Magazine class is also saved so we don't need to
+            // translate from display name to magazine class name
+            _artyOrdnanceTypeLb lbSetData [_idx, (_x select 0)];
+        };
 
     } forEach _artyOrdnanceInfos;
 
