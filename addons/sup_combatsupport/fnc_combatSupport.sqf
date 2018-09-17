@@ -197,28 +197,16 @@ switch(_operation) do {
                             } else {
                                 switch (tolower(_type)) do {
                                    case ("arty") : {
-                                        private ["_position","_callsign","_type"];
+                                        private ["_position","_callsign","_type","_artyAmmo"];
 
                                         _position = getposATL _entry;
                                         _direction =  getDir _entry;
                                         _class = typeOf _entry;
-
-                                           _callsign = _entry getvariable ["CS_CALLSIGN",groupID (group _entry)];
-
-                                        _he = ["HE",parsenumber(_entry getvariable ["CS_artillery_he","30"])];
-                                        _illum = ["ILLUM",parsenumber(_entry getvariable ["CS_artillery_illum","30"])];
-                                        _smoke = ["SMOKE",parsenumber(_entry getvariable ["CS_artillery_smoke","30"])];
-                                        _guided = ["SADARM",parsenumber(_entry getvariable ["CS_artillery_guided","30"])];
-                                        _cluster = ["CLUSTER",parsenumber(_entry getvariable ["CS_artillery_cluster","30"])];
-                                        _lg = ["LASER",parsenumber(_entry getvariable ["CS_artillery_lg","30"])];
-                                        _mine = ["MINE",parsenumber(_entry getvariable ["CS_artillery_atmine","30"])];
-                                        _atmine = ["AT MINE",parsenumber(_entry getvariable ["CS_artillery_atmine","30"])];
-                                        _rockets = ["ROCKETS",parsenumber(_entry getvariable ["CS_artillery_rockets","16"])];
-
-                                        _ordnance = [_he,_illum,_smoke,_guided,_cluster,_lg,_mine,_atmine, _rockets];
+                                        _callsign = _entry getvariable ["CS_CALLSIGN",groupID (group _entry)];
+                                        _artyAmmo = _entry getVariable ["CS_ARTILLERY_AMMO", []];
                                         _code = _entry getvariable ["CS_CODE",""];
                                         _code = [_code,"this","(_this select 0)"] call CBA_fnc_replace;
-                                        _artyArray = [_position,_class, _callsign,3,_ordnance,_code];
+                                        _artyArray = [_position,_class, _callsign,3,_artyAmmo,_code];
                                         _artyArrays pushback _artyArray;
                                     };
                                 };
@@ -270,48 +258,20 @@ switch(_operation) do {
                                     _transportArrays pushback _transportArray;
                                 };
                                 case ("ALiVE_sup_artillery") : {
-                                    private ["_position","_callsign","_type"];
+                                    private ["_position","_callsign","_type","_artyAmmo"];
 
                                     _position = getposATL ((synchronizedObjects _logic) select _i);
                                     _callsign = ((synchronizedObjects _logic) select _i) getvariable ["artillery_callsign","FOX ONE"];
                                     _class = ((synchronizedObjects _logic) select _i) getvariable ["artillery_type","B_Mortar_01_F"];
-                                    _setherounds = ((synchronizedObjects _logic) select _i) getvariable ["artillery_he","30"];
-                                    _setillumrounds = ((synchronizedObjects _logic) select _i) getvariable ["artillery_illum","30"];
-                                    _setsmokerounds = ((synchronizedObjects _logic) select _i) getvariable ["artillery_smoke","30"];
-                                    _setguidedrounds = ((synchronizedObjects _logic) select _i) getvariable ["artillery_guided","30"];
-                                    _setclusterrounds = ((synchronizedObjects _logic) select _i) getvariable ["artillery_cluster","30"];
-                                    _setlgrounds = ((synchronizedObjects _logic) select _i) getvariable ["artillery_lg","30"];
-                                    _setminerounds = ((synchronizedObjects _logic) select _i) getvariable ["artillery_mine","30"];
-                                    _setatminerounds = ((synchronizedObjects _logic) select _i) getvariable ["artillery_atmine","30"];
-                                    _setrocketrounds = ((synchronizedObjects _logic) select _i) getvariable ["artillery_rockets","16"];
+                                    _artyAmmo = ((synchronizedObjects _logic) select _i) getVariable ["artillery_ammo", "[]"];
+                                    _artyAmmo = parseSimpleArray _artyAmmo;
+                                    ["the-star db. %1", _artyAmmo] call ALIVE_fnc_dump;
 
                                     _direction =  getDir ((synchronizedObjects _logic) select _i);
                                     _code = ((synchronizedObjects _logic) select _i) getvariable ["artillery_code",""];
                                     _code = [_code,"this","(_this select 0)"] call CBA_fnc_replace;
 
-                                    _herounds = parsenumber(_setherounds);
-                                    _illumrounds = parsenumber(_setillumrounds);
-                                    _smokerounds = parsenumber(_setsmokerounds);
-                                    _guidedrounds = parsenumber(_setguidedrounds);
-                                    _clusterrounds = parsenumber(_setclusterrounds);
-                                    _lgrounds = parsenumber(_setlgrounds);
-                                    _minerounds = parsenumber(_setminerounds);
-                                    _atminerounds = parsenumber(_setatminerounds);
-                                    _rocketrounds = parsenumber(_setrocketrounds);
-
-                                    _he = ["HE",_herounds];
-                                    _illum = ["ILLUM",_illumrounds];
-                                    _smoke = ["SMOKE",_smokerounds];
-                                    _guided = ["SADARM",_guidedrounds];
-                                    _cluster = ["CLUSTER",_clusterrounds];
-                                    _lg = ["LASER",_lgrounds];
-                                    _mine = ["MINE",_minerounds];
-                                    _atmine = ["AT MINE",_atminerounds];
-                                    _rockets = ["ROCKETS", _rocketrounds];
-
-                                   _ordnance = [_he,_illum,_smoke,_guided,_cluster,_lg,_mine,_atmine, _rockets];
-
-                                    _artyArray = [_position,_class, _callsign,3,_ordnance,_code];
+                                    _artyArray = [_position, _class, _callsign, 3, _artyAmmo, _code];
                                     _artyArrays pushback _artyArray;
                                 };
                             };
@@ -575,7 +535,7 @@ switch(_operation) do {
                             _class = _x select 1;
                             _callsign = toUpper (_x select 2);
                             _unitCount = round (_x select 3); if (_unitCount > 4) then { _unitCount = 4 }; if (_unitCount < 1) then { _unitCount = 1 };
-                            _rounds = _x select 4;
+                            private _artyAmmo = _x select 4;
                             _code = _x select 5;
 
                             if (_class in ["BUS_Support_Mort","BUS_MotInf_MortTeam","OIA_MotInf_MortTeam","OI_support_Mort","HAF_MotInf_MortTeam","HAF_Support_Mort"]) then {
@@ -602,13 +562,13 @@ switch(_operation) do {
                                 default {_side = EAST};
                             };
 
-                            if (!isNil "_tempclass") then {
-                                _roundsUnit = _tempclass call ALiVE_fnc_GetArtyRounds;
-                            } else {
-                                _roundsUnit = _class call ALiVE_fnc_GetArtyRounds;
-                            };
-
-                            _roundsAvailable = [];
+//                            if (!isNil "_tempclass") then {
+//                                _roundsUnit = _tempclass call ALiVE_fnc_GetArtyRounds;
+//                            } else {
+//                                _roundsUnit = _class call ALiVE_fnc_GetArtyRounds;
+//                            };
+//
+//                            _roundsAvailable = [];
                             _canMove = if (_class in ["B_MBT_01_arty_F", "O_MBT_02_arty_F", "B_MBT_01_mlrs_F","O_Mortar_01_F", "B_Mortar_01_F","I_Mortar_01_F","BUS_Support_Mort","BUS_MotInf_MortTeam","OIA_MotInf_MortTeam","OI_support_Mort","HAF_MotInf_MortTeam","HAF_Support_Mort"]) then { true } else { false };
                             _units = [];
                             _artyBatteries = [];
@@ -711,22 +671,11 @@ switch(_operation) do {
                                 } forEach _codeArray;
                             } forEach _artyBatteries;
 
-                            //Validate rounds
-                            {
-                                if ((_x select 0) in _roundsUnit) then
-                                {
-                                    _roundsAvailable pushback _x;
-                                };
-                            } forEach _rounds;
-
-
-                            leader _grp setVariable ["NEO_radioArtyBatteryRounds", _roundsAvailable, true];
-
                             //FSM
                             private _fsmHandle = [_units, _grp, _callsign, _pos, _roundsAvailable, _canMove, _class, leader _grp, _code, _audio, _side] execFSM "\x\alive\addons\sup_combatSupport\scripts\NEO_radio\fsms\alivearty.fsm";
 
                             _a = NEO_radioLogic getVariable format ["NEO_radioArtyArray_%1", _side];
-                            _a pushback ([leader _grp, _grp, _callsign, _units, _roundsAvailable, _fsmHandle]);
+                            _a pushback ([leader _grp, _grp, _callsign, _units, _fsmHandle]);
 
                             NEO_radioLogic setVariable [format ["NEO_radioArtyArray_%1", _side], _a, true];
 
