@@ -224,12 +224,28 @@ class FSM
        "" \n
        "private _artyOrdnanceInfos = [""getData"", vehicle _leader] call ALIVE_fnc_getArtyOrdnanceInfo;" \n
        "private _artyOrdnanceRoundcounts = [];" \n
-       "//_availableRounds = _artyOrdnanceRoundcounts;" \n
        "" \n
        "{" \n
        "	_artyOrdnanceRoundcounts pushback 32;" \n
        "" \n
        "} forEach _artyOrdnanceInfos;" \n
+       "" \n
+       "{" \n
+       "	private _ord = _x select 0;" \n
+       "	private _newCount = _x select 1;" \n
+       "	[""the-star db. ord %1 count %2"", _ord, _newCount] call ALIVE_fnc_dump;" \n
+       "" \n
+       "	if (_newCount < 0) then {" \n
+       "		_newCount = 0;" \n
+       "	};" \n
+       "" \n
+       "	private _roundIdx = [""getIdx"", [_artyOrdnanceInfos, _ord]] call ALIVE_fnc_getArtyOrdnanceInfo;" \n
+       "" \n
+       "	if (_roundIdx != -1) then {" \n
+       "		_artyOrdnanceRoundcounts set [_roundIdx, _newCount];" \n
+       "	};" \n
+       "" \n
+       "} forEach _availableRounds;" \n
        "" \n
        "[""the-star db. ordnance infos %1"", _artyOrdnanceInfos] call ALIVE_fnc_dump;" \n
        "[""the-star db. ordnance round counts %1"", _artyOrdnanceRoundcounts] call ALIVE_fnc_dump;" \n
