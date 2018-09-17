@@ -8,6 +8,7 @@ _units = _this select 0;
 _grp = _this select 1;
 _callsign = _this select 2;
 _pos = _this select 3;
+_artyAmmo = _this select 4;
 _canMove = _this select 5;
 _type = _this select 6;
 _battery = _this select 7;
