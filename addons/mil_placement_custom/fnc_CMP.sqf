@@ -260,10 +260,6 @@ switch(_operation) do {
             _logic setVariable ["moduleType", "ALIVE_CMP"];
             _logic setVariable ["startupComplete", false];
 
-            if (isNil "ALIVE_clustersMilCustom") then {
-                ALIVE_clustersMilCustom = [] call ALIVE_fnc_hashCreate;
-            };
-
             TRACE_1("After module init",_logic);
 
             if !(["ALiVE_sys_profile"] call ALiVE_fnc_isModuleAvailable) exitwith {
@@ -291,6 +287,10 @@ switch(_operation) do {
                 [true] call ALIVE_fnc_timer;
             };
             // DEBUG -------------------------------------------------------------------------------------
+
+            if (isNil "ALIVE_clustersMilCustom") then {
+                ALIVE_clustersMilCustom = [] call ALIVE_fnc_hashCreate;
+            };
 
             // instantiate static vehicle position data
             if(isNil "ALIVE_groupConfig") then {
