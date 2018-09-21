@@ -299,12 +299,6 @@ switch(_operation) do {
 
         _eventID = _args select 0;
         _eventData = _args select 1;
-        
-//        ["the-star db. OPCOM RECON"] call ALIVE_fnc_dump;
-//        ["the-star db. eventData %1", _eventData] call ALIVE_fnc_dump;
-//        _hashTable = _eventData select 1;
-//        ["the-star db. eventData hash get size %1", [_hashTable, "size", "HAHA"] call ALIVE_fnc_hashGet] call ALIVE_fnc_dump;
-//        ["the-star db. eventData hash get allow player %1", [_hashTable, "allowPlayerTasking", "HAHA"] call ALIVE_fnc_hashGet] call ALIVE_fnc_dump;
 
         _side = _eventData select 0;
         _position = _eventData select 1 select 2 select 1;
@@ -321,12 +315,6 @@ switch(_operation) do {
 
         _eventID = _args select 0;
         _eventData = _args select 1;
-        
-//        ["the-star db. OPCOM CAPTURE"] call ALIVE_fnc_dump;
-//        ["the-star db. eventData %1", _eventData] call ALIVE_fnc_dump;
-//        _hashTable = _eventData select 1;
-//        ["the-star db. eventData hash get size %1", [_hashTable, "size", "HAHA"] call ALIVE_fnc_hashGet] call ALIVE_fnc_dump;
-//        ["the-star db. eventData hash get allow player %1", [_hashTable, "allowPlayerTasking", "HAHA"] call ALIVE_fnc_hashGet] call ALIVE_fnc_dump;
 
         _side = _eventData select 0;
         _position = _eventData select 1 select 2 select 1;
@@ -344,12 +332,6 @@ switch(_operation) do {
         _eventID = _args select 0;
         _eventData = _args select 1;
 
-//        ["the-star db. OPCOM DEFEND"] call ALIVE_fnc_dump;
-//        ["the-star db. eventData %1", _eventData] call ALIVE_fnc_dump;
-//        _hashTable = _eventData select 1;
-//        ["the-star db. eventData hash get size %1", [_hashTable, "size", "HAHA"] call ALIVE_fnc_hashGet] call ALIVE_fnc_dump;
-//        ["the-star db. eventData hash get allow player %1", [_hashTable, "allowPlayerTasking", "HAHA"] call ALIVE_fnc_hashGet] call ALIVE_fnc_dump;
-
         _side = _eventData select 0;
         _position = _eventData select 1 select 2 select 1;
         _size = _eventData select 1 select 2 select 2;
@@ -365,12 +347,6 @@ switch(_operation) do {
 
         _eventID = _args select 0;
         _eventData = _args select 1;
-        
-//        ["the-star db. OPCOM RESERVE"] call ALIVE_fnc_dump;
-//        ["the-star db. eventData %1", _eventData] call ALIVE_fnc_dump;
-//        _hashTable = _eventData select 1;
-//        ["the-star db. eventData hash get size %1", [_hashTable, "size", "HAHA"] call ALIVE_fnc_hashGet] call ALIVE_fnc_dump;
-//        ["the-star db. eventData hash get allow player %1", [_hashTable, "allowPlayerTasking", "HAHA"] call ALIVE_fnc_hashGet] call ALIVE_fnc_dump;
 
         _side = _eventData select 0;
         _position = _eventData select 1 select 2 select 1;
@@ -387,12 +363,6 @@ switch(_operation) do {
 
         _eventID = _args select 0;
         _eventData = _args select 1;
-        
-//        ["the-star db. OPCOM TERRORIZE"] call ALIVE_fnc_dump;
-//        ["the-star db. eventData %1", _eventData] call ALIVE_fnc_dump;
-//        _hashTable = _eventData select 1;
-//        ["the-star db. eventData hash get size %1", [_hashTable, "size", "HAHA"] call ALIVE_fnc_hashGet] call ALIVE_fnc_dump;
-//        ["the-star db. eventData hash get allow player %1", [_hashTable, "allowPlayerTasking", "HAHA"] call ALIVE_fnc_hashGet] call ALIVE_fnc_dump;
 
         _side = _eventData select 0;
         _position = _eventData select 1 select 2 select 1;
@@ -422,7 +392,6 @@ switch(_operation) do {
         _eventSectorID = [_eventSector,"id"] call ALIVE_fnc_hashGet;
 
         _sectorData = [_eventSector,"data"] call ALIVE_fnc_hashGet;
-        ["the-star db. event sector %1", _eventSector] call ALIVE_fnc_dump;
 
         if (isnil "_sectorData") exitwith {};
 
@@ -520,7 +489,8 @@ switch(_operation) do {
 
                         ["the-star db. before check cluster id %1 %2", _clusterID, !isNil "ALIVE_clustersMilCustom"] call ALIVE_fnc_dump;
 
-                        if (!isNil "ALIVE_clustersMilCustom" && {[ALIVE_clustersMilCustom, _clusterID] call CBA_fnc_hashHasKey}) then {
+                        if (!isNil "ALIVE_clustersMilCustom"
+                            && {[ALIVE_clustersMilCustom, _clusterID] call CBA_fnc_hashHasKey}) then {
                                 private _clusterData = [ALIVE_clustersMilCustom, _clusterID] call ALIVE_fnc_hashGet;
                                 _allowPlayerTasking = [_clusterData, "allowPlayerTasking", true] call ALIVE_fnc_hashGet;
                         };
@@ -578,11 +548,12 @@ switch(_operation) do {
 
                         ["the-star db. before check cluster id %1 %2", _clusterID, !isNil "ALIVE_clustersMilCustom"] call ALIVE_fnc_dump;
 
-                        if (!isNil "ALIVE_clustersMilCustom" && {[ALIVE_clustersMilCustom, _clusterID] call CBA_fnc_hashHasKey}) then {
+                        if (!isNil "ALIVE_clustersMilCustom"
+                            && {[ALIVE_clustersMilCustom, _clusterID] call CBA_fnc_hashHasKey}) then {
                                 private _clusterData = [ALIVE_clustersMilCustom, _clusterID] call ALIVE_fnc_hashGet;
                                 _allowPlayerTasking = [_clusterData, "allowPlayerTasking", true] call ALIVE_fnc_hashGet;
                         };
-                                
+
                         ["the-star db. cluster id %1 check player %3 allow player %2", _clusterID, _allowPlayerTasking, _checkPlayerTask] call ALIVE_fnc_dump;
 
                         if (!_checkPlayerTask || _allowPlayerTasking) then {
