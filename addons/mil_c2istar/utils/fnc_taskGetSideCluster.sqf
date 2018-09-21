@@ -8,6 +8,9 @@ Description:
 Get a enemy cluster for a task
 
 Parameters:
+checkMilCustom: bool. Check if custom military objectives allows player tasking.
+    True: ignore custom military objectives that do not allow player tasking.
+    False: assume all objectives allow player tasking.
 
 Returns:
 
@@ -32,7 +35,7 @@ _this params [
     ["_checkMilCustom", false]
 ];
 
-["the-star db. loc %1 type %2 side %3 type %4 check %5", _taskLocation, _taskLocationType, _side, _type, _checkPlayerTask] call ALIVE_fnc_dump;
+["the-star db. loc %1 type %2 side %3 type %4 check %5", _taskLocation, _taskLocationType, _side, _type, _checkMilCustom] call ALIVE_fnc_dump;
 
 if(_type != "") then {
     _sideClusters = [ALIVE_battlefieldAnalysis,"getClustersOwnedBySideAndType",[[_side] call ALIVE_fnc_sideTextToObject, _type, _checkMilCustom]] call ALIVE_fnc_battlefieldAnalysis;
