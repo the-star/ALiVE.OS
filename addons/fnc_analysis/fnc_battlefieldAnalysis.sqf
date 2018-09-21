@@ -457,7 +457,7 @@ switch(_operation) do {
 
         _args params [
             "_side",
-            ["_checkPlayerTask", false]
+            ["_checkMilCustom", false]
         ];
 
         ["the-star db. side %1 check %2", _side, _checkPlayerTask] call ALIVE_fnc_dump;
@@ -484,18 +484,19 @@ switch(_operation) do {
                     if (_owner == "GUER") then {_owner = "INDEP"};
 
                     if (_owner == _side) then {
-
                         private _allowPlayerTasking = true;
+                        ["the-star db. before. cluster id %1 check milcustom %3 allow player %2", _clusterID, _allowPlayerTasking, _checkMilCustom] call ALIVE_fnc_dump;
 
-                        ["the-star db. before check cluster id %1 %2", _clusterID, !isNil "ALIVE_clustersMilCustom"] call ALIVE_fnc_dump;
-
-                        if (!isNil "ALIVE_clustersMilCustom"
-                            && {[ALIVE_clustersMilCustom, _clusterID] call CBA_fnc_hashHasKey}) then {
+                        if (_checkMilCustom) then {
+                            if (!isNil "ALIVE_clustersMilCustom" && {ALIVE_clustersMilCustom, _clusterID] call CBA_fnc_hashHasKey}) then {
                                 private _clusterData = [ALIVE_clustersMilCustom, _clusterID] call ALIVE_fnc_hashGet;
                                 _allowPlayerTasking = [_clusterData, "allowPlayerTasking", true] call ALIVE_fnc_hashGet;
+                            };
                         };
 
-                        if (!_checkPlayerTask || _allowPlayerTasking) then {
+                        ["the-star db. after. cluster id %1 check milcustom %3 allow player %2", _clusterID, _allowPlayerTasking, _checkMilCustom] call ALIVE_fnc_dump;
+
+                        if (_allowPlayerTasking) then {
                             ["the-star db. adding %1", _clusterID] call ALIVE_fnc_dump;
                             _clustersOwnedBySide pushback _x;
                         };
@@ -512,7 +513,7 @@ switch(_operation) do {
         _args params [
             "_side",
             "_type",
-            ["_checkPlayerTask", false]
+            ["_checkMilCustom", false]
         ];
 
         ["the-star db. side %1 type %2 check %3", _side, _type, _checkPlayerTask] call ALIVE_fnc_dump;
@@ -543,20 +544,20 @@ switch(_operation) do {
                     if (_owner == "GUER") then {_owner = "INDEP"};
 
                     if (_owner == _side && {_type == _clusterType}) then {
-
                         private _allowPlayerTasking = true;
 
-                        ["the-star db. before check cluster id %1 %2", _clusterID, !isNil "ALIVE_clustersMilCustom"] call ALIVE_fnc_dump;
+                        ["the-star db. before. cluster id %1 check milcustom %3 allow player %2", _clusterID, _allowPlayerTasking, _checkMilCustom] call ALIVE_fnc_dump;
 
-                        if (!isNil "ALIVE_clustersMilCustom"
-                            && {[ALIVE_clustersMilCustom, _clusterID] call CBA_fnc_hashHasKey}) then {
+                        if (_checkMilCustom) then {
+                            if (!isNil "ALIVE_clustersMilCustom" && {[ALIVE_clustersMilCustom, _clusterID] call CBA_fnc_hashHasKey}) then {
                                 private _clusterData = [ALIVE_clustersMilCustom, _clusterID] call ALIVE_fnc_hashGet;
                                 _allowPlayerTasking = [_clusterData, "allowPlayerTasking", true] call ALIVE_fnc_hashGet;
+                            };
                         };
 
-                        ["the-star db. cluster id %1 check player %3 allow player %2", _clusterID, _allowPlayerTasking, _checkPlayerTask] call ALIVE_fnc_dump;
+                        ["the-star db. after. cluster id %1 check milcustom %3 allow player %2", _clusterID, _allowPlayerTasking, _checkMilCustom] call ALIVE_fnc_dump;
 
-                        if (!_checkPlayerTask || _allowPlayerTasking) then {
+                        if (_allowPlayerTasking) then {
                             ["the-star db. adding %1", _clusterID] call ALIVE_fnc_dump;
                             _clustersOwnedBySide pushback _x;
                         };
