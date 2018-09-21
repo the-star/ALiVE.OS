@@ -459,7 +459,7 @@ switch(_operation) do {
             "_side",
             ["_checkPlayerTask", false]
         ];
-        
+
         ["the-star db. side %1 check %2", _side, _checkPlayerTask] call ALIVE_fnc_dump;
 
         _clustersOwnedBySide = [];
@@ -484,7 +484,7 @@ switch(_operation) do {
                     if (_owner == "GUER") then {_owner = "INDEP"};
 
                     if (_owner == _side) then {
-                    
+
                         private _allowPlayerTasking = true;
 
                         ["the-star db. before check cluster id %1 %2", _clusterID, !isNil "ALIVE_clustersMilCustom"] call ALIVE_fnc_dump;
@@ -494,7 +494,7 @@ switch(_operation) do {
                                 private _clusterData = [ALIVE_clustersMilCustom, _clusterID] call ALIVE_fnc_hashGet;
                                 _allowPlayerTasking = [_clusterData, "allowPlayerTasking", true] call ALIVE_fnc_hashGet;
                         };
-                        
+
                         if (!_checkPlayerTask || _allowPlayerTasking) then {
                             ["the-star db. adding %1", _clusterID] call ALIVE_fnc_dump;
                             _clustersOwnedBySide pushback _x;
