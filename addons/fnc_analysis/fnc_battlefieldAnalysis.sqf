@@ -460,7 +460,7 @@ switch(_operation) do {
             ["_checkMilCustom", false]
         ];
 
-        ["the-star db. side %1 check %2", _side, _checkPlayerTask] call ALIVE_fnc_dump;
+        ["the-star db. side %1 check %2", _side, _checkMilCustom] call ALIVE_fnc_dump;
 
         _clustersOwnedBySide = [];
 
@@ -488,7 +488,7 @@ switch(_operation) do {
                         ["the-star db. before. cluster id %1 check milcustom %3 allow player %2", _clusterID, _allowPlayerTasking, _checkMilCustom] call ALIVE_fnc_dump;
 
                         if (_checkMilCustom) then {
-                            if (!isNil "ALIVE_clustersMilCustom" && {ALIVE_clustersMilCustom, _clusterID] call CBA_fnc_hashHasKey}) then {
+                            if (!isNil "ALIVE_clustersMilCustom" && {[ALIVE_clustersMilCustom, _clusterID] call CBA_fnc_hashHasKey}) then {
                                 private _clusterData = [ALIVE_clustersMilCustom, _clusterID] call ALIVE_fnc_hashGet;
                                 _allowPlayerTasking = [_clusterData, "allowPlayerTasking", true] call ALIVE_fnc_hashGet;
                             };
@@ -499,6 +499,9 @@ switch(_operation) do {
                         if (_allowPlayerTasking) then {
                             ["the-star db. adding %1", _clusterID] call ALIVE_fnc_dump;
                             _clustersOwnedBySide pushback _x;
+                        }
+                        else {
+                            ["the-star db. ignoring %1 player tasking disabled for it", _clusterID] call ALIVE_fnc_dump;
                         };
                     };
                 } forEach (_clusters select 2);
@@ -516,7 +519,7 @@ switch(_operation) do {
             ["_checkMilCustom", false]
         ];
 
-        ["the-star db. side %1 type %2 check %3", _side, _type, _checkPlayerTask] call ALIVE_fnc_dump;
+        ["the-star db. side %1 type %2 check %3", _side, _type, _checkMilCustom] call ALIVE_fnc_dump;
 
         _clustersOwnedBySide = [];
 
@@ -560,6 +563,9 @@ switch(_operation) do {
                         if (_allowPlayerTasking) then {
                             ["the-star db. adding %1", _clusterID] call ALIVE_fnc_dump;
                             _clustersOwnedBySide pushback _x;
+                        }
+                        else {
+                            ["the-star db. ignoring %1 player tasking disabled for it", _clusterID] call ALIVE_fnc_dump;
                         };
                     };
                 } forEach (_clusters select 2);
