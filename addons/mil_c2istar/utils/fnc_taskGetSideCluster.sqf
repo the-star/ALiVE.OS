@@ -29,15 +29,15 @@ _this params [
     "_taskLocationType",
     "_side",
     ["_type", ""],
-    ["_checkPlayerTask", false]
+    ["_checkMilCustom", false]
 ];
 
 ["the-star db. loc %1 type %2 side %3 type %4 check %5", _taskLocation, _taskLocationType, _side, _type, _checkPlayerTask] call ALIVE_fnc_dump;
 
 if(_type != "") then {
-    _sideClusters = [ALIVE_battlefieldAnalysis,"getClustersOwnedBySideAndType",[[_side] call ALIVE_fnc_sideTextToObject, _type, _checkPlayerTask]] call ALIVE_fnc_battlefieldAnalysis;
+    _sideClusters = [ALIVE_battlefieldAnalysis,"getClustersOwnedBySideAndType",[[_side] call ALIVE_fnc_sideTextToObject, _type, _checkMilCustom]] call ALIVE_fnc_battlefieldAnalysis;
 }else{
-    _sideClusters = [ALIVE_battlefieldAnalysis,"getClustersOwnedBySide",[[_side] call ALIVE_fnc_sideTextToObject, _checkPlayerTask]] call ALIVE_fnc_battlefieldAnalysis;
+    _sideClusters = [ALIVE_battlefieldAnalysis,"getClustersOwnedBySide",[[_side] call ALIVE_fnc_sideTextToObject, _checkMilCustom]] call ALIVE_fnc_battlefieldAnalysis;
 };
 
 _targetPosition = [];
