@@ -77,25 +77,29 @@ if (!(_status in ["KILLED", "MISSION", "RTB", "MOVE", "RESPONSE", "NOAMMO"]) && 
     _artyOrdnanceTypeText ctrlSetStructuredText parseText "<t color='#B4B4B4' size='0.8' font='PuristaMedium'>ORDNANCE</t>";
     _artyOrdnanceTypeLb ctrlEnable true;
     lbClear _artyOrdnanceTypeLb;
+    private _ordnances = ["getOrdnances", [_artyOrdnanceInfos]] call ALIVE_fnc_getArtyOrdnanceInfo;
+
+    ["the-star db. unitlb ord %1", _ordnances] call ALIVE_fnc_dump;
 
     // Show magazine display name in UI
     {
-        private _ord = ["getClass", [_x]] call ALIVE_fnc_getArtyOrdnanceInfo;
-        private _ordIdx = ["getIdx", [_x]] call ALIVE_fnc_getArtyOrdnanceInfo;
-        private _ordDisplayName = ["getDisplayName", [_x]] call ALIVE_fnc_getArtyOrdnanceInfo;
+        ["the-star db. ord %1", _x] call ALIVE_fnc_dump;
+        private _ord = _x;
+        private _ordIdx = ["getIdx", [_artyOrdnanceInfos, _ord]] call ALIVE_fnc_getArtyOrdnanceInfo;
+        private _ordDisplayName = ["getDisplayName", [_artyOrdnanceInfos, _ord]] call ALIVE_fnc_getArtyOrdnanceInfo;
 
         private _roundCount = _artyOrdnanceRoundcounts select _ordIdx;
 
         if (_roundCount > 0) then {
 
-            private _idx = _artyOrdnanceTypeLb lbAdd _ordDisplayName;
+            private _lbIdx = _artyOrdnanceTypeLb lbAdd _ordDisplayName;
 
-            // Magazine class is also saved so we don't need to
-            // translate from display name to magazine class name
-            _artyOrdnanceTypeLb lbSetData [_idx, _ord];
+            // eliminate need to translate back from ordnance  display
+            // name to ordnance class name
+            _artyOrdnanceTypeLb lbSetData [_lbIdx, _ord];
         };
 
-    } forEach _artyOrdnanceInfos;
+    } forEach _ordnances;
 
     //Arty Markers
     {
