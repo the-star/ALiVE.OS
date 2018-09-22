@@ -222,13 +222,15 @@ class FSM
        "_grp setCombatMode ""RED"";" \n
        "_grp setSpeedMode ""FULL"";" \n
        "" \n
-       "private _artyOrdnanceInfos = [""getData"", vehicle _leader] call ALIVE_fnc_getArtyOrdnanceInfo;" \n
+       "[""the-star db. avail rounds %1"", _availableRounds] call ALIVE_fnc_dump;" \n
+       "" \n
+       "private _artyOrdnanceInfos = [""getData"", [vehicle _leader]] call ALIVE_fnc_getArtyOrdnanceInfo;" \n
        "private _artyOrdnanceRoundcounts = [];" \n
+       "private _numOrdnance = [""getNumOrdnance"", [_artyOrdnanceInfos]] call ALIVE_fnc_getArtyOrdnanceInfo;" \n
        "" \n
-       "{" \n
-       "	_artyOrdnanceRoundcounts pushback 32;" \n
-       "" \n
-       "} forEach _artyOrdnanceInfos;" \n
+       "for ""_i"" from 1 to _numOrdnance step 1 do {" \n
+       "	_artyOrdnanceRoundcounts pushBack 30;" \n
+       "};" \n
        "" \n
        "{" \n
        "	private _ord = _x select 0;" \n
@@ -410,23 +412,20 @@ class FSM
            "[_battery, _target, _missionType, _rateOfFire, _durationOrCount, _class,_ordnance,_dispersion, _units] spawn ALIVE_fnc_ExecuteMission;" \n
            "" \n
            "//Update ammo" \n
-           "_ammo = _battery getVariable ""CS_ArtyOrdnanceInfos"";" \n
-           "private _roundCount = _battery getVariable ""CS_ArtyOrdnanceRoundcounts"";" \n
-           "private _roundIdx = [""getIdx"", [_ammo, _ordnance]] call ALIVE_fnc_getArtyOrdnanceInfo;" \n
+           "private _roundIdx = [""getIdx"", [_artyOrdnanceInfos, _ordnance]] call ALIVE_fnc_getArtyOrdnanceInfo;" \n
            "" \n
-           "_count = _roundCount select _roundIdx;" \n
+           "_count = _artyOrdnanceRoundcounts select _roundIdx;" \n
            "_countNew = _count - _durationOrCount;" \n
            "" \n
            "if (_countNew > 0) then" \n
            "{" \n
-           "    _roundCount set [_roundIdx, _countNew];" \n
+           "    _artyOrdnanceRoundcounts set [_roundIdx, _countNew];" \n
            "}" \n
-           "" \n
            "else {" \n
-           "    _roundCount set [_roundIdx, 0];" \n
+           "    _artyOrdnanceRoundcounts set [_roundIdx, 0];" \n
            "};" \n
            "" \n
-           "_battery setVariable [""CS_ArtyOrdnanceRoundcounts"", _roundCount, true];" \n
+           "_battery setVariable [""CS_ArtyOrdnanceRoundcounts"", _artyOrdnanceRoundcounts, true];" \n
            "" \n
            ""/*%FSM</ACTION""">*/;
         };
@@ -1038,23 +1037,20 @@ class FSM
            "[_battery, _target, _missionType, _rateOfFire, _durationOrCount, _class,_ordnance,_dispersion, _units] spawn ALIVE_fnc_ExecuteMission;" \n
            "" \n
            "//Update ammo" \n
-           "_ammo = _battery getVariable ""CS_ArtyOrdnanceInfos"";" \n
-           "private _roundCount = _battery getVariable ""CS_ArtyOrdnanceRoundcounts"";" \n
-           "private _roundIdx = [""getIdx"", [_ammo, _ordnance]] call ALIVE_fnc_getArtyOrdnanceInfo;" \n
+           "private _roundIdx = [""getIdx"", [_artyOrdnanceInfos, _ordnance]] call ALIVE_fnc_getArtyOrdnanceInfo;" \n
            "" \n
-           "_count = _roundCount select _roundIdx;" \n
+           "_count = _artyOrdnanceRoundcounts select _roundIdx;" \n
            "_countNew = _count - _durationOrCount;" \n
            "" \n
            "if (_countNew > 0) then" \n
            "{" \n
-           "    _roundCount set [_roundIdx, _countNew];" \n
+           "    _artyOrdnanceRoundcounts set [_roundIdx, _countNew];" \n
            "}" \n
-           "" \n
            "else {" \n
-           "    _roundCount set [_roundIdx, 0];" \n
+           "    _artyOrdnanceRoundcounts set [_roundIdx, 0];" \n
            "};" \n
            "" \n
-           "_battery setVariable [""CS_ArtyOrdnanceRoundcounts"", _roundCount, true];" \n
+           "_battery setVariable [""CS_ArtyOrdnanceRoundcounts"", _artyOrdnanceRoundcounts, true];" \n
            "" \n
            ""/*%FSM</ACTION""">*/;
         };
@@ -1202,23 +1198,20 @@ class FSM
            "[_battery, _target, _missionType, _rateOfFire, _durationOrCount, _class,_ordnance,_dispersion, _units] spawn ALIVE_fnc_ExecuteMission;" \n
            "" \n
            "//Update ammo" \n
-           "_ammo = _battery getVariable ""CS_ArtyOrdnanceInfos"";" \n
-           "private _roundCount = _battery getVariable ""CS_ArtyOrdnanceRoundcounts"";" \n
-           "private _roundIdx = [""getIdx"", [_ammo, _ordnance]] call ALIVE_fnc_getArtyOrdnanceInfo;" \n
+           "private _roundIdx = [""getIdx"", [_artyOrdnanceInfos, _ordnance]] call ALIVE_fnc_getArtyOrdnanceInfo;" \n
            "" \n
-           "_count = _roundCount select _roundIdx;" \n
+           "_count = _artyOrdnanceRoundcounts select _roundIdx;" \n
            "_countNew = _count - _durationOrCount;" \n
            "" \n
            "if (_countNew > 0) then" \n
            "{" \n
-           "    _roundCount set [_roundIdx, _countNew];" \n
+           "    _artyOrdnanceRoundcounts set [_roundIdx, _countNew];" \n
            "}" \n
-           "" \n
            "else {" \n
-           "    _roundCount set [_roundIdx, 0];" \n
+           "    _artyOrdnanceRoundcounts set [_roundIdx, 0];" \n
            "};" \n
            "" \n
-           "_battery setVariable [""CS_ArtyOrdnanceRoundcounts"", _roundCount, true];" \n
+           "_battery setVariable [""CS_ArtyOrdnanceRoundcounts"", _artyOrdnanceRoundcounts, true];" \n
            "" \n
            ""/*%FSM</ACTION""">*/;
         };
