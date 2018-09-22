@@ -204,6 +204,7 @@ switch(_operation) do {
                                         _class = typeOf _entry;
                                         _callsign = _entry getvariable ["CS_CALLSIGN",groupID (group _entry)];
                                         _artyAmmo = _entry getVariable ["CS_ARTILLERY_AMMO", []];
+                                        ["the-star db. %1", _artyAmmo] call ALIVE_fnc_dump;
                                         _code = _entry getvariable ["CS_CODE",""];
                                         _code = [_code,"this","(_this select 0)"] call CBA_fnc_replace;
                                         _artyArray = [_position,_class, _callsign,3,_artyAmmo,_code];
