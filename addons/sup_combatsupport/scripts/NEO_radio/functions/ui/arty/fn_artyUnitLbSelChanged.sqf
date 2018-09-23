@@ -94,8 +94,8 @@ if (!(_status in ["KILLED", "MISSION", "RTB", "MOVE", "RESPONSE", "NOAMMO"]) && 
 
             private _lbIdx = _artyOrdnanceTypeLb lbAdd _ordDisplayName;
 
-            // eliminate need to translate back from ordnance  display
-            // name to ordnance class name
+            // eliminate need to translate back from display
+            // name to class name
             _artyOrdnanceTypeLb lbSetData [_lbIdx, _ord];
         };
 
