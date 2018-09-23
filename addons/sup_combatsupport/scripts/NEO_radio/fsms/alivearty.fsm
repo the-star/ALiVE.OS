@@ -318,7 +318,7 @@ class FSM
           priority = 50.000000;
           to="__8";
           precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
-          condition=/*%FSM<CONDITION""">*/"count (_battery getVariable ""CS_ArtyOrdnanceRoundcounts"") < 1" \n
+          condition=/*%FSM<CONDITION""">*/"({_x > 0} count _artyOrdnanceRoundcounts == 0)" \n
            "||" \n
            "_grp getVariable [""supportWeaponCount"",3] == 0"/*%FSM</CONDITION""">*/;
           action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
@@ -690,7 +690,7 @@ class FSM
           to="main_loop";
           precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
           condition=/*%FSM<CONDITION""">*/"true"/*%FSM</CONDITION""">*/;
-          action=/*%FSM<ACTION""">*/"if (count (_battery getVariable ""CS_ArtyOrdnanceRoundcounts"") < 1) then" \n
+          action=/*%FSM<ACTION""">*/"if ({_x > 0} count _artyOrdnanceRoundcounts == 0) then" \n
            "{" \n
            "    private ""_msg"";" \n
            "    _battery setVariable [""NEO_radioArtyUnitStatus"", ""NOAMMO"", true];" \n
