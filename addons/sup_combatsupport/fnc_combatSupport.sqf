@@ -531,12 +531,12 @@ switch(_operation) do {
                         // ARTY
 
                         {
-                            private ["_pos", "_class", "_callsign", "_unitCount", "_rounds", "_code", "_roundsUnit", "_roundsAvailable", "_canMove", "_units", "_grp", "_vehDir","_tempclass","_side","_artyBatteries"];
+                            private ["_pos", "_class", "_callsign", "_unitCount", "_artyAmmo", "_code", "_canMove", "_units", "_grp", "_vehDir","_tempclass","_side","_artyBatteries"];
                             _pos = _x select 0; _pos set [2, 0];
                             _class = _x select 1;
                             _callsign = toUpper (_x select 2);
                             _unitCount = round (_x select 3); if (_unitCount > 4) then { _unitCount = 4 }; if (_unitCount < 1) then { _unitCount = 1 };
-                            private _artyAmmo = _x select 4;
+                            _artyAmmo = _x select 4;
                             _code = _x select 5;
 
                             if (_class in ["BUS_Support_Mort","BUS_MotInf_MortTeam","OIA_MotInf_MortTeam","OI_support_Mort","HAF_MotInf_MortTeam","HAF_Support_Mort"]) then {
@@ -563,13 +563,6 @@ switch(_operation) do {
                                 default {_side = EAST};
                             };
 
-//                            if (!isNil "_tempclass") then {
-//                                _roundsUnit = _tempclass call ALiVE_fnc_GetArtyRounds;
-//                            } else {
-//                                _roundsUnit = _class call ALiVE_fnc_GetArtyRounds;
-//                            };
-//
-//                            _roundsAvailable = [];
                             _canMove = if (_class in ["B_MBT_01_arty_F", "O_MBT_02_arty_F", "B_MBT_01_mlrs_F","O_Mortar_01_F", "B_Mortar_01_F","I_Mortar_01_F","BUS_Support_Mort","BUS_MotInf_MortTeam","OIA_MotInf_MortTeam","OI_support_Mort","HAF_MotInf_MortTeam","HAF_Support_Mort"]) then { true } else { false };
                             _units = [];
                             _artyBatteries = [];
