@@ -233,9 +233,17 @@ class FSM
        "};" \n
        "" \n
        "{" \n
-       "	private _ord = _x select 0;" \n
-       "	private _newCount = _x select 1;" \n
-       "	[""the-star db. ord %1 count %2"", _ord, _newCount] call ALIVE_fnc_dump;" \n
+       "	_x params [" \n
+       "		[""_ord"", """", [""""]]," \n
+       "		[""_newCount"", 0, [0]]," \n
+       "		[""_newDisplayName"", """", []]" \n
+       "	];" \n
+       "" \n
+       "	if !((typeName _newDisplayName) isEqualTo ""STRING"") then {" \n
+       "		_newDisplayName = """";" \n
+       "	};" \n
+       "" \n
+       "	[""the-star db. ord %1 count %2 displayName %3"", _ord, _newCount, _newDisplayName] call ALIVE_fnc_dump;" \n
        "" \n
        "	if (_newCount < 0) then {" \n
        "		_newCount = 0;" \n
@@ -245,6 +253,9 @@ class FSM
        "" \n
        "	if (_roundIdx != -1) then {" \n
        "		_artyOrdnanceRoundcounts set [_roundIdx, _newCount];" \n
+       "		if !(_newDisplayName isEqualTo """") then {" \n
+       "			[""setDisplayName"", [_artyOrdnanceInfos, _ord, _newDisplayName]] call ALIVE_fnc_getArtyOrdnanceInfo;" \n
+       "		};" \n
        "	};" \n
        "" \n
        "} forEach _availableRounds;" \n
