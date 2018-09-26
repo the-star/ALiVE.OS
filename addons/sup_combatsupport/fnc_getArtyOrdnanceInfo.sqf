@@ -8,6 +8,8 @@ params [
     ["_args", [], []]
 ];
 
+["the-star db. action %1 args %2", _action, _args] call ALIVE_fnc_dump;
+
 private _rt = [];
 
 switch (_action) do {
@@ -104,6 +106,35 @@ switch (_action) do {
         ["the-star db. ord %2 disp %3", _artyInfos, _ordnance, _displayName] call ALIVE_fnc_dump;
 
         _rt = _displayName;
+    };
+    case "setDisplayName": {
+
+        _args params [
+            ["_artyInfos", [], [[]]],
+            ["_ordnance", "", [""]],
+            ["_displayName", "", [""]]
+        ];
+
+        private _success = false;
+
+        if ([_artyInfos] call CBA_fnc_isHash) then {
+            _data = [_artyInfos, _ordnance, ""] call ALIVE_fnc_hashGet;
+
+            ["the-star db. getDisplay data %1", _data] call ALIVE_fnc_dump;
+
+            if !(_data isEqualTo "") then {
+                _data set [0, _displayName];
+                [_artyInfos, _ordnance, _data] call ALIVE_fnc_hashSet;
+                _success = true;
+            };
+        }
+        else {
+            ["the-star db. Error invalid arty info input"] call ALIVE_fnc_dump;
+        };
+
+        ["the-star db. ord %2 disp %3", _artyInfos, _ordnance, _displayName] call ALIVE_fnc_dump;
+
+        _rt = _success;
     };
     case "getNumOrdnance": {
 
