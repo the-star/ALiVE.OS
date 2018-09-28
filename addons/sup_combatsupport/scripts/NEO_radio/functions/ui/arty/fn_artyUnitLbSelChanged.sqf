@@ -71,7 +71,7 @@ uinamespace setVariable ["NEO_artyMarkerCreated", nil];
 { _x ctrlSetText "" } forEach [_artyOrdnanceTypeText, _artyRateOfFireText, _artyRoundCountText, _artyDispersionText, _artyRateDelayText];
 { lbClear _x } forEach [_artyOrdnanceTypeLb, _artyRateOfFireLb, _artyRoundCountLb];
 
-if (!(_status in ["KILLED", "MISSION", "RTB", "MOVE", "RESPONSE", "NOAMMO"]) && count _artyOrdnanceRoundcount > 0) then
+if (!(_status in ["KILLED", "MISSION", "RTB", "MOVE", "RESPONSE", "NOAMMO"]) && !(_artyOrdnanceRoundcount call ALIVE_fnc_artyIsOutOfAmmo)) then
 {
     //Ordnance
     _artyOrdnanceTypeText ctrlSetStructuredText parseText "<t color='#B4B4B4' size='0.8' font='PuristaMedium'>ORDNANCE</t>";
