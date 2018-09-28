@@ -27,66 +27,11 @@ class CfgVehicles {
                         };
                         class artillery_ammo
                         {
-                            displayName ="Artillery Ammo";
-                            description = "";
+                            displayName ="$STR_ALIVE_ARTILLERY_AMMO";
+                            description ="$STR_ALIVE_ARTILLERY_AMMO_DESC";
                             typeName = "STRING";
                             defaultValue = "[]";
                         };
-//                        class artillery_he
-//                        {
-//                                displayName = "$STR_ALIVE_ARTILLERY_HE";
-//                                description = "$STR_ALIVE_ARTILLERY_HE_DESC";
-//                                defaultValue= 30;
-//                        };
-//                        class artillery_illum
-//                        {
-//                                displayName = "$STR_ALIVE_ARTILLERY_ILLUM";
-//                                description = "$STR_ALIVE_ARTILLERY_ILLUM_DESC";
-//                                defaultValue= 30;
-//                        };
-//                         class artillery_smoke
-//                        {
-//                                displayName = "$STR_ALIVE_ARTILLERY_SMOKE";
-//                                description = "$STR_ALIVE_ARTILLERY_SMOKE_DESC";
-//                                defaultValue= 30;
-//                        };
-//                        class artillery_guided
-//                        {
-//                                displayName = "$STR_ALIVE_ARTILLERY_GUIDED";
-//                                description = "$STR_ALIVE_ARTILLERY_GUIDED_DESC";
-//                                defaultValue= 30;
-//                        };
-//                        class artillery_cluster
-//                        {
-//                                displayName = "$STR_ALIVE_ARTILLERY_CLUSTER";
-//                                description = "$STR_ALIVE_ARTILLERY_CLUSTER_DESC";
-//                                defaultValue= 30;
-//                        };
-//                        class artillery_lg
-//                        {
-//                                displayName = "$STR_ALIVE_ARTILLERY_LG";
-//                                description = "$STR_ALIVE_ARTILLERY_LG_DESC";
-//                                defaultValue= 30;
-//                        };
-//                        class artillery_mine
-//                        {
-//                                displayName = "$STR_ALIVE_ARTILLERY_MINE";
-//                                description = "$STR_ALIVE_ARTILLERY_MINE_DESC";
-//                                defaultValue= 30;
-//                        };
-//                        class artillery_atmine
-//                        {
-//                                displayName = "$STR_ALIVE_ARTILLERY_ATMINE";
-//                                description = "$STR_ALIVE_ARTILLERY_ATMINE_DESC";
-//                                defaultValue= 30;
-//                        };
-//                        class artillery_rockets
-//                        {
-//                                displayName = "$STR_ALIVE_ARTILLERY_ROCKETS";
-//                                description = "$STR_ALIVE_ARTILLERY_ROCKETS_DESC";
-//                                defaultValue= 16;
-//                        };
-//
                         class artillery_code
                         {
                                 displayName = "$STR_ALIVE_ARTILLERY_CODE";
