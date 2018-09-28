@@ -8,7 +8,7 @@ private
     "_artyOrdnanceTypeLb", "_artyRateOfFireText", "_artyRateOfFireLb", "_artyRoundCountText", "_artyRoundCountLb", "_artyMoveButton",
     "_artyDontMoveButton", "_artyDispersionText", "_artyDispersionSlider", "_artyRateDelayText", "_artyRateDelaySlider",
     "_supportMarker", "_artyMarkers", "_battery", "_status", "_class",
-    "_artyOrdnanceInfos", "_artyOrdnanceRoundcounts"
+    "_artyOrdnanceInfo", "_artyOrdnanceRoundcount"
 ];
 _artyArray = NEO_radioLogic getVariable format ["NEO_radioArtyArray_%1", playerSide];
 _artyUnitLb = _display displayCtrl 655594;
@@ -34,8 +34,8 @@ _battery = _artyArray select (lbCurSel _artyUnitLb) select 0; if (!isNil { NEO_r
 _status = _battery getVariable "NEO_radioArtyUnitStatus";
 _class = typeOf (((_artyArray select (lbCurSel _artyUnitLb)) select 3) select 0); if (!isNil { NEO_radioLogic getVariable "NEO_radioTalkWithArty" }) then { _class = typeOf (NEO_radioLogic getVariable "NEO_radioTalkWithArty") };
 
-_artyOrdnanceInfos = _battery getVariable "CS_ArtyOrdnanceInfos";
-_artyOrdnanceRoundcounts = _battery getVariable "CS_ArtyOrdnanceRoundcounts";
+_artyOrdnanceInfo = _battery getVariable "CS_ArtyOrdnanceInfo";
+_artyOrdnanceRoundcount = _battery getVariable "CS_ArtyOrdnanceRoundcount";
 
 //Help Text
 _artyHelpUnitText ctrlSetStructuredText parseText (switch (toUpper _status) do
@@ -71,13 +71,13 @@ uinamespace setVariable ["NEO_artyMarkerCreated", nil];
 { _x ctrlSetText "" } forEach [_artyOrdnanceTypeText, _artyRateOfFireText, _artyRoundCountText, _artyDispersionText, _artyRateDelayText];
 { lbClear _x } forEach [_artyOrdnanceTypeLb, _artyRateOfFireLb, _artyRoundCountLb];
 
-if (!(_status in ["KILLED", "MISSION", "RTB", "MOVE", "RESPONSE", "NOAMMO"]) && count _artyOrdnanceRoundcounts > 0) then
+if (!(_status in ["KILLED", "MISSION", "RTB", "MOVE", "RESPONSE", "NOAMMO"]) && count _artyOrdnanceRoundcount > 0) then
 {
     //Ordnance
     _artyOrdnanceTypeText ctrlSetStructuredText parseText "<t color='#B4B4B4' size='0.8' font='PuristaMedium'>ORDNANCE</t>";
     _artyOrdnanceTypeLb ctrlEnable true;
     lbClear _artyOrdnanceTypeLb;
-    private _ordnances = ["getOrdnances", [_artyOrdnanceInfos]] call ALIVE_fnc_getArtyOrdnanceInfo;
+    private _ordnances = ["getOrdnances", [_artyOrdnanceInfo]] call ALIVE_fnc_getArtyOrdnanceInfo;
 
     ["the-star db. unitlb ord %1", _ordnances] call ALIVE_fnc_dump;
 
@@ -85,10 +85,10 @@ if (!(_status in ["KILLED", "MISSION", "RTB", "MOVE", "RESPONSE", "NOAMMO"]) && 
     {
         ["the-star db. ord %1", _x] call ALIVE_fnc_dump;
         private _ord = _x;
-        private _ordIdx = ["getIdx", [_artyOrdnanceInfos, _ord]] call ALIVE_fnc_getArtyOrdnanceInfo;
-        private _ordDisplayName = ["getDisplayName", [_artyOrdnanceInfos, _ord]] call ALIVE_fnc_getArtyOrdnanceInfo;
+        private _ordIdx = ["getIdx", [_artyOrdnanceInfo, _ord]] call ALIVE_fnc_getArtyOrdnanceInfo;
+        private _ordDisplayName = ["getDisplayName", [_artyOrdnanceInfo, _ord]] call ALIVE_fnc_getArtyOrdnanceInfo;
 
-        private _roundCount = _artyOrdnanceRoundcounts select _ordIdx;
+        private _roundCount = _artyOrdnanceRoundcount select _ordIdx;
 
         if (_roundCount > 0) then {
 

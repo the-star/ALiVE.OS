@@ -3,7 +3,7 @@ private
     "_artyArray", "_display", "_artyOrdnanceTypeLb", "_artyRateOfFireText", "_artyRateOfFireLb", "_artyRoundCountText",
     "_artyRoundCountLb", "_artyDispersionText", "_artyDispersionSlider", "_artyUnitLb", "_artyRateDelayText", "_artyRateDelaySlider",
     "_battery", "_ord", "_count", "_countArray",
-    "_artyOrdnanceInfos", "_artyOrdnanceRoundcounts"
+    "_artyOrdnanceInfo", "_artyOrdnanceRoundcount"
 ];
 _artyArray = NEO_radioLogic getVariable format ["NEO_radioArtyArray_%1", playerSide];
 _display = findDisplay 655555;
@@ -23,21 +23,21 @@ _count = 0;
 _countArray = [];
 
 _ord = _artyOrdnanceTypeLb lbData (lbCurSel _artyOrdnanceTypeLb);
-_artyOrdnanceInfos = _battery getVariable ["CS_ArtyOrdnanceInfos", []];
-_artyOrdnanceRoundcounts = _battery getVariable ["CS_ArtyOrdnanceRoundcounts", []];
+_artyOrdnanceInfo = _battery getVariable ["CS_ArtyOrdnanceInfo", []];
+_artyOrdnanceRoundcount = _battery getVariable ["CS_ArtyOrdnanceRoundcount", []];
 
-if (_artyOrdnanaceInfos isEqualTo []) exitWith {
+if (_artyOrdnanceInfo isEqualTo []) exitWith {
 };
 
-if (_artyOrdnanceRoundcounts isEqualTo []) exitWith {
+if (_artyOrdnanceRoundcount isEqualTo []) exitWith {
 };
 
-private _roundIdx = ["getIdx", [_artyOrdnanceInfos, _ord]] call ALIVE_fnc_getArtyOrdnanceInfo;
+private _roundIdx = ["getIdx", [_artyOrdnanceInfo, _ord]] call ALIVE_fnc_getArtyOrdnanceInfo;
 
 if (_roundIdx < 0) exitWith {
 };
 
-_count = _artyOrdnanceRoundcounts select _roundIdx;
+_count = _artyOrdnanceRoundcount select _roundIdx;
 
 if (_count >= 1) then { _countArray pushback ("1 ROUND") };
 if (_count >= 3) then { _countArray pushback ("3 ROUNDS") };
