@@ -1510,6 +1510,7 @@ switch (_operation) do {
                             } else {
                                 private _taskState = _task select 8;
                                 private _task = [_logic, "getTask", _taskSource select 0] call MAINCLASS;
+                                ["the-star db. getting task %1", _task] call ALIVE_fnc_dump;
                                 _task set [8, _taskState];
                                 _task set [10, "N"];
 
@@ -1522,11 +1523,11 @@ switch (_operation) do {
                                 if (_sideAutoGeneration select 0 == "Constant") then {
                                     uiSleep (10 + (random 50));
 
-									_task params ["", "_requestPlayerID", "", "_taskFaction"];
+									_task params ["", "_requestPlayerID", "", "", "_taskFaction"];
 
                                     private _taskEnemyFaction = [_taskParams, "enemyFaction"] call ALIVE_fnc_hashGet;
                                     private _generate = [format ["%1_%2", _taskSide, time], _requestPlayerID, _taskSide, _taskFaction, _taskEnemyFaction, _sideAutoGeneration select 0];
-
+                                    ["the-star db. generating a new task %1", _generate] call ALIVE_fnc_dump;
                                     [_logic, "autoGenerateTasks", _generate] call MAINCLASS;
                                 };
                             };
