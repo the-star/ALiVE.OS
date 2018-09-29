@@ -3,6 +3,7 @@ the-star's fork of <a href="https://github.com/ALiVEOS/ALiVE.OS">ALiVE</a>.
 ### Issues
 - https://github.com/ALiVEOS/ALiVE.OS/issues/536
 - https://github.com/ALiVEOS/ALiVE.OS/issues/542
+- https://github.com/ALiVEOS/ALiVE.OS/issues/552
 
 ### Details
 Allows mission maker to disable C2ISTAR MilAssault/MilDefense player tasking on custom military objectives.
