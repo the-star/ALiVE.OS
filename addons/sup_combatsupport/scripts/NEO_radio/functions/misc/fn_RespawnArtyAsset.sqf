@@ -1,6 +1,6 @@
 private [
     "_grp", "_callsign", "_pos", "_type", "_respawn","_code", "_side",
-    "_leader", "_unitCount", "_rounds", "_roundsUnit", "_roundsAvailable",
+    "_leader", "_unitCount", "_artyAmmo", "_roundsAvailable",
     "_canMove", "_units", "_grp", "_vehDir", "_artyBatteries"
 ];
 
@@ -8,7 +8,7 @@ _units = _this select 0;
 _grp = _this select 1;
 _callsign = _this select 2;
 _pos = _this select 3;
-_artyAmmo = _this select 4;
+_roundsAvailable = _this select 4;
 _canMove = _this select 5;
 _type = _this select 6;
 _battery = _this select 7;
@@ -19,9 +19,6 @@ _side = _this select 10;
 
 _unitCount = count _units; if (_unitCount > 4) then { _unitCount = 4 }; if (_unitCount < 1) then { _unitCount = 1 };
 _canMove = if (_type in ["B_MBT_01_arty_F", "O_MBT_02_arty_F", "B_MBT_01_mlrs_F","O_Mortar_01_F", "B_Mortar_01_F","I_Mortar_01_F","BUS_Support_Mort","BUS_MotInf_MortTeam","OIA_MotInf_MortTeam","OI_support_Mort","HAF_MotInf_MortTeam","HAF_Support_Mort"]) then { true } else { false };
-_rounds = _availableRounds;
-_roundsUnit = _type call NEO_fnc_artyUnitAvailableRounds;
-_roundsAvailable = [];
 
 //Exit if limit is reached
 if (ARTY_RESPAWN_LIMIT == 0) exitwith {
@@ -32,14 +29,6 @@ if (ARTY_RESPAWN_LIMIT == 0) exitwith {
 //Start respawning if not exited
 sleep _respawn;
 ARTY_RESPAWN_LIMIT = ARTY_RESPAWN_LIMIT - 1;
-
-//Validate rounds
-{
-    if ((_x select 0) in _roundsUnit) then
-    {
-        _roundsAvailable pushback _x;
-    };
-} forEach _rounds;
 
 //This unit cannot be used anymore, remove from side-list
 _sideArray = NEO_radioLogic getVariable [format["NEO_radioArtyArray_%1", _side], []];
@@ -102,11 +91,7 @@ if (_side == WEST && _type == "BUS_MotInf_MortTeam") then {
     };
 };
 
-{_x setVariable ["NEO_radioArtyModule", [leader _grp, _callsign], true]} forEach _units;
-
 [[(units _grp select 0),_callsign], "fnc_setGroupID", false, false] spawn BIS_fnc_MP;
-
-leader _grp setVariable ["NEO_radioArtyBatteryRounds", _roundsAvailable, true];
 
 _codeArray = [_code, ";"] Call CBA_fnc_split;
 {
