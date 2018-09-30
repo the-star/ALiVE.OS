@@ -453,7 +453,7 @@ switch(_operation) do {
         _result = [_logic, "casualtySectors"] call ALIVE_fnc_hashGet;
     };
     case "getClustersOwnedBySide": {
-        private["_side","_clustersOwnedBySide","_activeSectors","_clusters","_owner","_sectorData"];
+        private["_clustersOwnedBySide","_activeSectors","_clusters","_owner","_sectorData"];
 
         _args params [
             "_side",
@@ -502,7 +502,7 @@ switch(_operation) do {
         _result = _clustersOwnedBySide;
     };
     case "getClustersOwnedBySideAndType": {
-        private["_side","_type","_clustersOwnedBySide","_activeSectors","_clusters","_owner","_clusterType","_sectorData"];
+        private["_clustersOwnedBySide","_activeSectors","_clusters","_owner","_clusterType","_sectorData"];
 
         _args params [
             "_side",
@@ -527,9 +527,9 @@ switch(_operation) do {
                 private _clusterID = _clusters select 1 select 0;
 
                 {
-                    private _owner = [_x,"owner"] call ALIVE_fnc_hashGet;
+                    _owner = [_x,"owner"] call ALIVE_fnc_hashGet;
                     _owner = if (typeName _owner == "SIDE") then {str(_owner)} else {_owner};
-                    private _clusterType = [_x,"type"] call ALIVE_fnc_hashGet;
+                    _clusterType = [_x,"type"] call ALIVE_fnc_hashGet;
 
                     if (_owner == "GUER") then {_owner = "INDEP"};
 
