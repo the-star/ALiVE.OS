@@ -241,8 +241,14 @@ switch(_operation) do {
         };
 
         if (typeName _args == "STRING") then {
-                if(_args == "true") then {_args = true;} else {_args = false;};
-                _logic setVariable ["allowPlayerTasking", _args];
+            if (_args == "true") then {
+                _args = true;
+            }
+            else {
+                _args = false;
+            };
+
+            _logic setVariable ["allowPlayerTasking", _args];
         };
 
         ASSERT_TRUE(typeName _args == "BOOL",str _args);
