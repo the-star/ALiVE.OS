@@ -32,12 +32,12 @@ if (_artyOrdnanceInfo isEqualTo []) exitWith {
 if (_artyOrdnanceRoundcount isEqualTo []) exitWith {
 };
 
-private _roundIdx = ["getIdx", [_artyOrdnanceInfo, _ord]] call ALIVE_fnc_getArtyOrdnanceInfo;
+private _ordIdx = ["getIdx", [_artyOrdnanceInfo, _ord]] call ALIVE_fnc_getArtyOrdnanceInfo;
 
-if (_roundIdx < 0) exitWith {
+if (_ordIdx < 0) exitWith {
 };
 
-_count = _artyOrdnanceRoundcount select _roundIdx;
+_count = _artyOrdnanceRoundcount select _ordIdx;
 
 if (_count >= 1) then { _countArray pushback ("1 ROUND") };
 if (_count >= 3) then { _countArray pushback ("3 ROUNDS") };
