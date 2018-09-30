@@ -9,8 +9,8 @@ Get a enemy cluster for a task
 
 Parameters:
 checkMilCustom: bool. Check if custom military objectives allows player tasking.
-    True: ignore custom military objectives that do not allow player tasking.
-    False: assume all objectives allow player tasking.
+    true: ignore custom military objectives that do not allow player tasking.
+    false: assume all objectives allow player tasking.
 
 Returns:
 
