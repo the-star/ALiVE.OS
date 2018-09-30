@@ -726,7 +726,7 @@ class FSM
     {
       name = "__6";
       init = /*%FSM<STATEINIT""">*/"_battery setVariable [""NEO_radioArtyUnitStatus"", ""KILLED"", true];" \n
-       "[_units, _grp, _callsign, _pos, _availableRounds,_canMove,_classCopy, _battery, CS_RESPAWN, _code, _side] spawn ALIVE_fnc_RespawnArtyAsset;"/*%FSM</STATEINIT""">*/;
+       "[_units, _grp, _callsign, _pos, _availableRounds,_canMove,_classCopy, _battery,CS_RESPAWN,_code, _side] spawn ALIVE_fnc_RespawnArtyAsset;"/*%FSM</STATEINIT""">*/;
       precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
       class Links
       {
