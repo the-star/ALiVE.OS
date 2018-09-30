@@ -279,6 +279,7 @@ switch (_support) do
 
             _units pushback _veh;
         };
+
         if (_class in ["BUS_MotInf_MortTeam","OIA_MotInf_MortTeam","HAF_MotInf_MortTeam"]) then {
             private _cars = [2, faction (leader _grp),"Car"] call ALiVE_fnc_findVehicleType;
             if (count _cars > 0) then {
