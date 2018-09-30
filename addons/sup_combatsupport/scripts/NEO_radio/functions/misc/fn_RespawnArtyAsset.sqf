@@ -1,14 +1,14 @@
 private [
     "_grp", "_callsign", "_pos", "_type", "_respawn","_code", "_side",
-    "_leader", "_unitCount", "_artyAmmo", "_roundsAvailable",
-    "_canMove", "_units", "_grp", "_vehDir", "_artyBatteries"
+    "_leader", "_unitCount", "_artyAmmo",
+    "_canMove", "_units", "_vehDir", "_artyBatteries"
 ];
 
 _units = _this select 0;
 _grp = _this select 1;
 _callsign = _this select 2;
 _pos = _this select 3;
-_roundsAvailable = _this select 4;
+_artyAmmo = _this select 4;
 _canMove = _this select 5;
 _type = _this select 6;
 _battery = _this select 7;
@@ -91,6 +91,8 @@ if (_side == WEST && _type == "BUS_MotInf_MortTeam") then {
     };
 };
 
+{_x setVariable ["NEO_radioArtyModule", [leader _grp, _callsign], true]} forEach _units;
+
 [[(units _grp select 0),_callsign], "fnc_setGroupID", false, false] spawn BIS_fnc_MP;
 
 _codeArray = [_code, ";"] Call CBA_fnc_split;
@@ -112,7 +114,6 @@ private _audio = NEO_radioLogic getvariable ["combatsupport_audio",true];
 
 //FSM
 private _artyfsm = "\x\alive\addons\sup_combatSupport\scripts\NEO_radio\fsms\alivearty.fsm";
-private _fsmHandle = [_units, _grp, _callsign, _pos, _roundsAvailable, _canMove, _type, leader _grp, _code, _audio, _side] execFSM _artyfsm;
 private _fsmHandle = [_units, _grp, _callsign, _pos, _artyAmmo, _canMove, _type, leader _grp, _code, _audio, _side] execFSM _artyfsm;
 
 private _artyAsset = NEO_radioLogic getVariable format ["NEO_radioArtyArray_%1", _side];

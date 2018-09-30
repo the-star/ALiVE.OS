@@ -666,7 +666,7 @@ switch(_operation) do {
                             } forEach _artyBatteries;
 
                             //FSM
-                            private _fsmHandle = [_units, _grp, _callsign, _pos, _roundsAvailable, _canMove, _class, leader _grp, _code, _audio, _side] execFSM "\x\alive\addons\sup_combatSupport\scripts\NEO_radio\fsms\alivearty.fsm";
+                            private _fsmHandle = [_units, _grp, _callsign, _pos, _artyAmmo, _canMove, _class, leader _grp, _code, _audio, _side] execFSM "\x\alive\addons\sup_combatSupport\scripts\NEO_radio\fsms\alivearty.fsm";
 
                             _a = NEO_radioLogic getVariable format ["NEO_radioArtyArray_%1", _side];
                             _a pushback ([leader _grp, _grp, _callsign, _units, _fsmHandle]);
