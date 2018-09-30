@@ -34,8 +34,8 @@ _battery = _artyArray select (lbCurSel _artyUnitLb) select 0; if (!isNil { NEO_r
 _status = _battery getVariable "NEO_radioArtyUnitStatus";
 _class = typeOf (((_artyArray select (lbCurSel _artyUnitLb)) select 3) select 0); if (!isNil { NEO_radioLogic getVariable "NEO_radioTalkWithArty" }) then { _class = typeOf (NEO_radioLogic getVariable "NEO_radioTalkWithArty") };
 
-_artyOrdnanceInfo = _battery getVariable "CS_ArtyOrdnanceInfo";
-_artyOrdnanceRoundcount = _battery getVariable "CS_ArtyOrdnanceRoundcount";
+_artyOrdnanceInfo = _battery getVariable ["CS_ArtyOrdnanceInfo", []];
+_artyOrdnanceRoundcount = _battery getVariable ["CS_ArtyOrdnanceRoundcount", []];
 
 //Help Text
 _artyHelpUnitText ctrlSetStructuredText parseText (switch (toUpper _status) do
