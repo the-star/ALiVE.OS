@@ -35,8 +35,6 @@ _this params [
     ["_checkMilCustom", false]
 ];
 
-["the-star db. loc %1 type %2 side %3 type %4 check %5", _taskLocation, _taskLocationType, _side, _type, _checkMilCustom] call ALIVE_fnc_dump;
-
 if(_type != "") then {
     _sideClusters = [ALIVE_battlefieldAnalysis,"getClustersOwnedBySideAndType",[[_side] call ALIVE_fnc_sideTextToObject, _type, _checkMilCustom]] call ALIVE_fnc_battlefieldAnalysis;
 }else{

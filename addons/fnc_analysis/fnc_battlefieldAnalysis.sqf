@@ -460,8 +460,6 @@ switch(_operation) do {
             ["_checkMilCustom", false]
         ];
 
-        ["the-star db. side %1 check %2", _side, _checkMilCustom] call ALIVE_fnc_dump;
-
         _clustersOwnedBySide = [];
 
         _side = if (typeName _side == "SIDE") then {str(_side)} else {_side};
@@ -485,7 +483,6 @@ switch(_operation) do {
 
                     if (_owner == _side) then {
                         private _allowPlayerTasking = true;
-                        ["the-star db. before. cluster id %1 check milcustom %3 allow player %2", _clusterID, _allowPlayerTasking, _checkMilCustom] call ALIVE_fnc_dump;
 
                         if (_checkMilCustom) then {
                             if (!isNil "ALIVE_clustersMilCustom" && {[ALIVE_clustersMilCustom, _clusterID] call CBA_fnc_hashHasKey}) then {
@@ -494,14 +491,8 @@ switch(_operation) do {
                             };
                         };
 
-                        ["the-star db. after. cluster id %1 check milcustom %3 allow player %2", _clusterID, _allowPlayerTasking, _checkMilCustom] call ALIVE_fnc_dump;
-
                         if (_allowPlayerTasking) then {
-                            ["the-star db. adding %1", _clusterID] call ALIVE_fnc_dump;
                             _clustersOwnedBySide pushback _x;
-                        }
-                        else {
-                            ["the-star db. ignoring %1 player tasking disabled for it", _clusterID] call ALIVE_fnc_dump;
                         };
                     };
                 } forEach (_clusters select 2);
@@ -519,8 +510,6 @@ switch(_operation) do {
             ["_checkMilCustom", false]
         ];
 
-        ["the-star db. side %1 type %2 check %3", _side, _type, _checkMilCustom] call ALIVE_fnc_dump;
-
         _clustersOwnedBySide = [];
 
         _side = if (typeName _side == "SIDE") then {str(_side)} else {_side};
@@ -535,8 +524,6 @@ switch(_operation) do {
             if !(isnil "_sectorData") then {
                 _clusters = [_sectorData,"activeClusters"] call ALIVE_fnc_hashGet;
 
-                ["the-star db. clusters %1", _clusters] call ALIVE_fnc_dump;
-
                 private _clusterID = _clusters select 1 select 0;
 
                 {
@@ -549,8 +536,6 @@ switch(_operation) do {
                     if (_owner == _side && {_type == _clusterType}) then {
                         private _allowPlayerTasking = true;
 
-                        ["the-star db. before. cluster id %1 check milcustom %3 allow player %2", _clusterID, _allowPlayerTasking, _checkMilCustom] call ALIVE_fnc_dump;
-
                         if (_checkMilCustom) then {
                             if (!isNil "ALIVE_clustersMilCustom" && {[ALIVE_clustersMilCustom, _clusterID] call CBA_fnc_hashHasKey}) then {
                                 private _clusterData = [ALIVE_clustersMilCustom, _clusterID] call ALIVE_fnc_hashGet;
@@ -558,14 +543,8 @@ switch(_operation) do {
                             };
                         };
 
-                        ["the-star db. after. cluster id %1 check milcustom %3 allow player %2", _clusterID, _allowPlayerTasking, _checkMilCustom] call ALIVE_fnc_dump;
-
                         if (_allowPlayerTasking) then {
-                            ["the-star db. adding %1", _clusterID] call ALIVE_fnc_dump;
                             _clustersOwnedBySide pushback _x;
-                        }
-                        else {
-                            ["the-star db. ignoring %1 player tasking disabled for it", _clusterID] call ALIVE_fnc_dump;
                         };
                     };
                 } forEach (_clusters select 2);
