@@ -1130,7 +1130,7 @@ class FSM
            "" \n
            "};" \n
            "" \n
-           "if (count (_battery getVariable ""CS_artyOrdnanceRoundcount"") < 1) then" \n
+           "if (_artyOrdnanceRoundcount call ALIVE_fnc_artyIsOutOfAmmo) then" \n
            "{" \n
            "    _battery setVariable [""NEO_radioArtyUnitStatus"", ""NOAMMO"", true];" \n
            "    private ""_msg"";" \n
