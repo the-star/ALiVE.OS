@@ -593,7 +593,8 @@ switch(_operation) do {
                                     _veh lock true;
                                     _vehDir = _vehDir + 90;
 
-                                    [_veh, _grp] call BIS_fnc_spawnCrew;
+                                    createVehicleCrew _veh;
+                                    (units _veh) joinSilent _grp;
 
                                     // set ownership flag for other modules
                                     _veh setVariable ["ALIVE_CombatSupport", true];
