@@ -59,6 +59,7 @@ if (_audio) then {
 
 //NEW TASK
 _battery setVariable ["NEO_radioArtyNewTask", [_type, _rate, _count, _dispersion, _pos, _unit, _ord, _callsignPlayer, player], true];
+["the-star db. %1 %2", _battery, _battery getVariable "NEO_radioArtyNewTask"] call ALIVE_fnc_dump;
 
 //Interface
 [lbCurSel 655565] call NEO_fnc_radioRefreshUi;
