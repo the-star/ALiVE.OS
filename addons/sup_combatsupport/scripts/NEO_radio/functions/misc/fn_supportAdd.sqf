@@ -193,7 +193,7 @@ switch (_support) do
 
     case "ARTY" :
     {
-        _array params ["_pos","_class","_callsign","_unitCount","_rounds","_code"];
+        _array params ["_pos","_class","_callsign","_unitCount","_artyAmmo","_code"];
 
         _pos set [2, 0];
         _callsign = toupper _callsign;
@@ -308,17 +308,11 @@ switch (_support) do
             } forEach _codeArray;
         } forEach _artyBatteries;
 
-        //Validate rounds
-        private _roundsUnit = if (!isNil "_tempclass") then { _tempclass call ALiVE_fnc_GetArtyRounds } else { _class call ALiVE_fnc_GetArtyRounds };
-        private _roundsAvailable = _rounds select { (_x select 0) in _roundsUnit };
-
-        leader _grp setVariable ["NEO_radioArtyBatteryRounds", _roundsAvailable, true];
-
         //FSM
-        private _fsmHandle = [_units, _grp, _callsign, _pos, _roundsAvailable, _canMove, _class, leader _grp, _code, _audio, _side] execFSM "\x\alive\addons\sup_combatSupport\scripts\NEO_radio\fsms\alivearty.fsm";
+        private _fsmHandle = [_units, _grp, _callsign, _pos, _artyAmmo, _canMove, _class, leader _grp, _code, _audio, _side] execFSM "\x\alive\addons\sup_combatSupport\scripts\NEO_radio\fsms\alivearty.fsm";
 
         private _artyArray = NEO_radioLogic getVariable format ["NEO_radioArtyArray_%1", _side];
-        _artyArray pushback ([leader _grp, _grp, _callsign, _units, _roundsAvailable, _fsmHandle]);
+        _artyArray pushback ([leader _grp, _grp, _callsign, _units, _fsmHandle]);
 
         NEO_radioLogic setVariable [format ["NEO_radioArtyArray_%1", _side], _artyArray, true];
     };

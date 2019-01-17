@@ -73,7 +73,7 @@ switch (_support) do
         if (_index != -1) then
         {
             private _artyToRemove = _artyArray select _index;
-            _artyToRemove params ["_leader","_group","_callsign","_units","_roundAvailable","_fsm"];
+            _artyToRemove params ["_leader","_group","_callsign","_units","_fsm"];
 
             _fsm setFSMVariable ["_removeFSM", true];
 
